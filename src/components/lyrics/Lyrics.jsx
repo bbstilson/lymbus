@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
 import Loading from 'react-simple-loading';
 import { FullLyrics, Sorted, Option } from './';
+import { SearchAgain } from 'components';
 
 const Lyrics = ({
     isLoading,
@@ -17,6 +18,7 @@ const Lyrics = ({
     <Loading /> :
     <div className='col-sm-12'>
         <p className='lead'>{songInfo.artist} - {songInfo.track}</p>
+        <SearchAgain />
         <div className='col-sm-12'>
             <div className='col-sm-6 col-sm-offset-3'>
                 <Option text='Sorted' doClick={onChangeMainView.bind(null, 'Sorted')} />

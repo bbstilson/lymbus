@@ -12,9 +12,9 @@ const Ordered = ({
         uniqueWords
     }
 }) => {
-    console.log('sortedKeys = ', sortedKeys(byCount, order));
     return (
         <div className='col-sm-12'>
+            <h2>Unique Words: {uniqueWords}</h2>
             {sortedKeys(byCount, order).map(num => {
                 return (
                     <div key={num}>

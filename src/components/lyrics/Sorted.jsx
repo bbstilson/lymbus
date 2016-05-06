@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { Cloud, Ordered, Option } from './';
-import { SearchAgain } from 'components';
 
 const Sorted = ({
     order,
@@ -23,7 +22,6 @@ const Sorted = ({
         </div>
         {view === 'Cloud' && <Cloud lyrics={{...lyrics.byWord}} />}
         {view === 'Ordered' && <Ordered order={order} lyrics={{ byCount: lyrics.byCount, uniqueWords: lyrics.uniqueWords }} />}
-        <SearchAgain />
     </div>
 );
 

@@ -8,7 +8,7 @@ export default (
         <Route path='/' component={Main}>
             <IndexRoute component={SearchContainer} />
             <Route path='/search' component={ResultsContainer} />
-            <Route path='/cloud' component={LyricsContainer} />
+            <Route path='/lyrics' component={LyricsContainer} />
         </Route>
     </Router>
 )

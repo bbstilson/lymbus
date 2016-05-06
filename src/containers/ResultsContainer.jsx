@@ -1,27 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import { Results } from 'components';
-
-const DATA = [ 
-    { id: 1, track: 'I Will Survive', artist: 'Cake' },
-    { id: 2, track: 'Distance', artist: 'Cake' },
-    { id: 3, track: 'Short Skirt/Long Jacket', artist: 'Cake' },
-    { id: 4, track: 'Never There', artist: 'Cake' },
-    { id: 5, track: 'Friend Is a Four Letter Word', artist: 'Cake' },
-    { id: 6, track: 'Perhaps, Perhaps, Perhaps', artist: 'Cake' },
-    { id: 7, track: 'Love You Madly', artist: 'Cake' },
-    { id: 8, track: 'Comfort Eagle', artist: 'Cake' },
-    { id: 9, track: 'Race Car Ya-Yas', artist: 'Cake' },
-    { id: 10, track: 'Friend Is a Four Letter Word', artist: 'Cake' },
-    { id: 11, track: 'Frank Sinatra', artist: 'Cake' },
-    { id: 12, track: 'Mahna Mahna', artist: 'Cake' },
-    { id: 13, track: 'Never There', artist: 'Cake' },
-    { id: 14, track: 'Nugget', artist: 'Cake' },
-    { id: 15, track: 'Perhaps, Perhaps, Perhaps', artist: 'Cake' },
-    { id: 16, track: 'Commissioning a Symphony in C', artist: 'Cake' },
-    { id: 17, track: 'Distance', artist: 'Cake' },
-    { id: 18, track: 'Cake', artist: 'Lloyd Banks' },
-    { id: 19, track: 'Let Me Go', artist: 'Cake' },
-    { id: 20, track: 'Stickshifts and Safetybelts', artist: 'Cake' } ];
+import axios from 'axios';
 
 export default class ResultsContainer extends Component {
     static contextTypes = {
@@ -39,7 +18,7 @@ export default class ResultsContainer extends Component {
     handleChoice = (song) => {
         const { artist, track } = song;
         this.context.router.push({
-            pathname: '/cloud',
+            pathname: '/lyrics',
             query: {
                 artist,
                 track
@@ -50,14 +29,38 @@ export default class ResultsContainer extends Component {
     componentDidMount() {
         // dispatch search action
         const search = this.props.location.query.keyword;
+        const url = `/api/search?keyword=${search}`;
 
-        // fake api delay w/ fake data
-        setTimeout(() => {
-            this.setState({
-                isLoading: false,
-                results: DATA
-            });
-        }, 1000)
+        axios(url) 
+            .then(checkStatus)
+            .then(processResults)
+            .then(results => {
+                this.setState({
+                    isLoading: false,
+                    results
+                });
+            })
+            .catch(err => console.warn('Error in componentDidMount of ResultsContainer', err));
+
+        function checkStatus(response) {
+            if (response.status >= 200 && response.status < 300) {
+                return response
+            } else {
+                var error = new Error(response.statusText)
+                error.response = response
+                throw error
+            }
+        }
+
+        function processResults (res) {
+            return res.data.map((item, idx) => {
+                return {
+                    artist: item.artist,
+                    track: item.track,
+                    id: idx
+                }
+            })
+        }
     }
 
     render() {
