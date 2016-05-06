@@ -19,10 +19,7 @@ app.use(require('webpack-hot-middleware')(compiler));
 app.use(express.static('public')); // for static files
 
 app.get('/api/search', (request, response) => {
-    const param = request.query.keyword;
-    const pos = param.indexOf('/') > 0 ? param.indexOf('/') : param.length; // fix this when the react router hashes are removed
-    const keyword = param.slice(0, pos);
-    const search = cleanSearchInput(keyword);
+    const search = cleanSearchInput(request.query.keyword);
     const url = `http://www.lyrics.com/search.php?keyword=${search}&what=all`;
 
     axios(url)
@@ -38,12 +35,11 @@ app.get('/api/search', (request, response) => {
             const $ = cheerio.load(html);
             const results = [];
 
-            // getting each result from the html
-            // converting to an array of objects: { artist: '', track: '' }
+            // converts each result in the html to an array of objects: { artist: '', track: '' }
             $('#rightcontent > .row').each((resIdx, el) => {
                 const res = {};
-                $(el).find('.left a').each((_, a) => {
-                    _ === 0 ? res.track = $(a).text() : res.artist = $(a).text()
+                $(el).find('.left a').each((idx, a) => {
+                    idx === 0 ? res.track = $(a).text() : res.artist = $(a).text()
                 });
                 results.push(res);
             });
@@ -93,22 +89,17 @@ app.listen(port, 'localhost', err => {
 
 
 // helpers
-
-String.prototype.removePunctuation = function () {
-    return this.replace(/[^\w']/g, ' '); // fix this nightmare
-}
+const removePunctuation = (str) => str.replace(/[^\w']/g, ' ');
 
 const cleanSingleInput = (str) => {
-    return str
-        .removePunctuation()
+    return removePunctuation(str)
         .toLowerCase()
         .replace(/\s/g, '-')
-        .replace(/--/g, '-');
+        .replace(/--/g, '-'); // double dashes can appear from abbreviations like "Mr."
 }
 
-const cleanSearchInput = (search) => {
-    return search
-        .removePunctuation()
+const cleanSearchInput = (str) => {
+    return removePunctuation(str)
         .toLowerCase()
         .replace(/\s/g, '+');
 }
