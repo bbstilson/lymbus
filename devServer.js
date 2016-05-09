@@ -75,14 +75,15 @@ app.get('/api/lyrics', (request, response) => {
                 return res.data;
             } else {
                 const error = new Error(res.statusText);
-                throw errcor;
+                throw error;
             }
         })
         .then(html => {
-            console.log('got lyrics')
             const $ = cheerio.load(html);
-            const lyrics = $('.ringtone').nextAll('div').text()
-
+            
+            // lyrics are in first div after div.ringtone
+            const lyrics = $('.ringtone').nextAll('div').eq(0).text();
+            
             response.send(lyrics);
         })
         .catch(error => { console.log('request failed: ', error) });
