@@ -1,10 +1,11 @@
 import React, { PropTypes } from 'react';
+import { space } from 'styles';
 
 const Option = ({
     text,
     doClick
 }) => (
-    <button className='btn btn-lg btn-primary' type='button' onClick={doClick}>
+    <button className='btn btn-lg btn-primary' type='button' onClick={doClick} style={space}>
         {text}
     </button>
 );

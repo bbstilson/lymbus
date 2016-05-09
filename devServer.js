@@ -11,40 +11,54 @@ var compiler = webpack(config);
 
 app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
-    publicPath: config.output.publicPath
+    publicPath: config.output.publicPath,
+    // hot: true,
+    // stats: { colors: true }
 }));
 
-app.use(require('webpack-hot-middleware')(compiler));
+// app.use(require('webpack-hot-middleware')(compiler));
 
 app.use(express.static('public')); // for static files
 
 app.get('/api/search', (request, response) => {
     const search = cleanSearchInput(request.query.keyword);
-    const url = `http://www.lyrics.com/search.php?keyword=${search}&what=all`;
-
+    const url = `http://search.azlyrics.com/search.php?q=${search}&p=0&w=songs`;
+    console.log('url =', url);
     axios(url)
         .then(res => {
             if (res.status >= 200 && res.status <= 300) {
                 return res.data;
             } else {
                 const error = new Error(res.statusText);
-                throw errcor;
+                throw error;
             }
         })
         .then(html => {
             const $ = cheerio.load(html);
+            var maxResultsCount = 20;
             const results = [];
 
             // converts each result in the html to an array of objects: { artist: '', track: '' }
-            $('#rightcontent > .row').each((resIdx, el) => {
-                const res = {};
-                $(el).find('.left a').each((idx, a) => {
-                    idx === 0 ? res.track = $(a).text() : res.artist = $(a).text()
-                });
-                results.push(res);
+            $('.table.table-condensed > tr').each((resId, row) => {
+                const newRes = {
+                    track: capitalizeFirstLetter($(row).find('a > b').text()),
+                    artist: capitalizeFirstLetter($(row).find('td > b:first-of-type').text())
+                };
+                results.push(newRes);
             });
-
-            response.json(results);
+            
+            function trimResults (arr) {
+                /*
+                    results include current page and *may* include pagination.
+                    if there is pagination (20 results plus current page and pagination)
+                        trim off the first and last
+                    else 
+                        only trim off first
+                */
+                return arr.length === 22 ? arr.slice(1, arr.length - 1) : arr.slice(1, arr.length);
+            }
+            console.log(trimResults(results));
+            response.json(trimResults(results));
         })
         .catch(error => { console.log('request failed: ', error) });
 });
@@ -53,7 +67,7 @@ app.get('/api/lyrics', (request, response) => {
     const artist = cleanSingleInput(request.query.artist),
         track = cleanSingleInput(request.query.track);
 
-    const url = `http://www.lyrics.com/${track}-lyrics-${artist}.html`;
+    const url = `http://www.azlyrics.com/lyrics/${artist}/${track}.html`;
 
     axios(url)
         .then(res => {
@@ -65,11 +79,11 @@ app.get('/api/lyrics', (request, response) => {
             }
         })
         .then(html => {
+            console.log('got lyrics')
             const $ = cheerio.load(html);
-            const lyrics = $('#lyrics').text();
-            const submitter = lyrics.indexOf('---');
+            const lyrics = $('.ringtone').nextAll('div').text()
 
-            response.send(lyrics.slice(0 , submitter));
+            response.send(lyrics);
         })
         .catch(error => { console.log('request failed: ', error) });
 });
@@ -94,12 +108,28 @@ const removePunctuation = (str) => str.replace(/[^\w']/g, ' ');
 const cleanSingleInput = (str) => {
     return removePunctuation(str)
         .toLowerCase()
-        .replace(/\s/g, '-')
-        .replace(/--/g, '-'); // double dashes can appear from abbreviations like "Mr."
-}
+        .replace(/\s/g, '')
+};
 
 const cleanSearchInput = (str) => {
     return removePunctuation(str)
         .toLowerCase()
         .replace(/\s/g, '+');
-}
+};
+
+const capitalizeFirstLetter = (str) => {
+    const parts = ['I','II','III', 'IV','V','IV','IIV','IIIV','IX','X'];
+    return str.split(' ')
+        .map(word => {
+            // check for 'parts', e.g., 'I', 'II', etc.
+            if (!!~parts.indexOf(word)) return word.toUpperCase();
+
+            const firstLetter = word.slice(0, 1);
+
+            // checking for remix parens, e.g., Artist - Song (Person Remix)
+            return firstLetter === '(' ? 
+                word.slice(0, 2).toUpperCase() + word.slice(2).toLowerCase() :
+                firstLetter + word.slice(1).toLowerCase()
+        })
+        .join(' ');
+};

@@ -1,5 +1,6 @@
 export const transparentBg = { background: 'transparent' };
-export const space = { marginBottom: '10px' };
+export const spaceBottom = { marginBottom: '10px' };
+export const space = { margin: '5px' };
 export const textCenter = { textAlign: 'center' };
 export const wordLabelContainer = {
     display: 'flex',
