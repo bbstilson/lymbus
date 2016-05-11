@@ -16,3 +16,7 @@
 - Details
     - mobile friendly?
         - word cloud doesn't resize
+
+- Eventually
+    - remove console.logs
+    
