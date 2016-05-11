@@ -1,6 +1,6 @@
 - Redux
-    - error handling
     - react-router
+    - error handling
     
 - D3 Word Cloud
 
@@ -10,3 +10,4 @@
     - No results.
     - No response.
     - 404 component.
+    - move devServer utils to separate file

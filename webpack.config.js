@@ -1,5 +1,6 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+
 var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
     template: __dirname + '/src/index.html',
     filename: 'index.html',
@@ -7,7 +8,7 @@ var HtmlWebpackPluginConfig = new HtmlWebpackPlugin({
 });
 
 module.exports = {
-    devtool: 'eval-source-map',
+    devtool: 'cheap-module-eval-source-map',
     entry: [
         './src/index.js'
     ],
@@ -33,6 +34,7 @@ module.exports = {
     },
     plugins: [
         HtmlWebpackPluginConfig,
-        // new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin()
     ]
 }

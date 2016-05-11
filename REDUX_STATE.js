@@ -1,4 +1,4 @@
-const state = {
+{
     // search reducer
     search: {
         history: {
