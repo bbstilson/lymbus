@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Cloud, Ordered, Option } from './';
+import { WordCloud, Ordered, Option } from './';
 
 const Sorted = ({
     order,
@@ -10,7 +10,7 @@ const Sorted = ({
 }) => (
     <div className='col-sm-12'>
         <div className='col-sm-12'>
-            <Option text='Cloud' doClick={onChangeChildView.bind(null, 'Cloud')}/>
+            <Option text='Word Cloud' doClick={onChangeChildView.bind(null, 'WordCloud')}/>
             <Option text='Ascending' doClick={() => {
                 onChangeChildView('Ordered')
                 onChangeOrder(true)
@@ -20,7 +20,7 @@ const Sorted = ({
                 onChangeOrder(false)
             }} />
         </div>
-        {view === 'Cloud' && <Cloud lyrics={{...lyrics.byWord}} />}
+        {view === 'WordCloud' && <WordCloud lyrics={{...lyrics.byWord}} />}
         {view === 'Ordered' && <Ordered order={order} lyrics={{ byCount: lyrics.byCount, uniqueWords: lyrics.uniqueWords }} />}
     </div>
 );

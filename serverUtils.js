@@ -3,15 +3,14 @@ function removePunctuation (str) {
 }
 
 function cleanSingleInput (str) {
-    return removePunctuation(str)
+    return str.replace(/\W/g, '')
         .toLowerCase()
-        .replace(/\s/g, '')
 }
 
 function cleanSearchInput (str) {
     return removePunctuation(str)
+        .replace(/\s/g, '+')
         .toLowerCase()
-        .replace(/\s/g, '+');
 }
 
 function capitalizeFirstLetter (str) {

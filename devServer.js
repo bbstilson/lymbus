@@ -11,7 +11,7 @@ var app = express();
 var compiler = webpack(config);
 
 app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
+    noInfo: false,
     publicPath: config.output.publicPath,
     hot: true,
     stats: { colors: true }
@@ -57,6 +57,9 @@ app.get('/api/lyrics', (request, response) => {
     const artist = utils.cleanSingleInput(request.query.artist),
         track = utils.cleanSingleInput(request.query.track);
 
+    console.log('artist = ', artist);
+    console.log('track = ', track);
+
     const url = `http://www.azlyrics.com/lyrics/${artist}/${track}.html`;
 
     axios(url)
@@ -76,7 +79,10 @@ app.get('/api/lyrics', (request, response) => {
             
             response.send(lyrics);
         })
-        .catch(error => { console.log('request failed: ', error) });
+        .catch(error => { 
+            console.log('request failed: ', error) 
+            response.send(error);
+        });
 });
 
 app.get('/', function (req, res) {

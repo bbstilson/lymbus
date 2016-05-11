@@ -1,8 +1,8 @@
-export const checkStatus = response => {
-    if (response.status >= 200 && response.status < 300) {
-        return response
+export const checkStatus = res => {
+    if (res.status >= 200 && res.status < 300) {
+        return res
     } else {
-        var error = new Error(response.statusText)
+        var error = new Error(res.statusText)
         throw error
     }
 }
@@ -14,68 +14,63 @@ export const processSearchResults = res => {
             track: item.track,
             id: idx
         }
-    });
+    })
 }
 
 export const toCamelCase = (...args) => {
-    const split = args.map(val => val.split(' '));
-    const fixed = split.reduce((out, arr) => out.concat(arr), []);
+    const split = args.map(val => val.split(' '))
+    const flatten = split.reduce((out, arr) => out.concat(arr), [])
        
-    return fixed.map((word, idx) => 
+    return flatten.map((word, idx) => 
             idx > 0 ? 
             word.slice(0, 1).toUpperCase() + word.slice(1).toLowerCase() : 
-            word.toLowerCase())
-        .join('');
-};
+            word.toLowerCase()
+        ).join('')
+}
 
 export const processLyrics = ({ data }) => {
-    const all = splitByLine(data);
-    const wordArr = generateLyricsArray(data);
-    const byWord = filterByWord(wordArr);
-    const byCount = filterByCount(byWord);
-    const uniqueWords = getUniqueWords(byWord);
+    const wordArr = generateLyricsArray(data)
+    const all = splitByLine(data)
+    const byWord = filterByWord(wordArr)
+    const byCount = filterByCount(byWord)
+    const uniqueWords = getUniqueWords(byWord)
 
-    return {
-        all,
-        byWord,
-        byCount,
-        uniqueWords
-    }
+    return { all, byWord, byCount, uniqueWords }
 }
 
 // helper functions for processLyrics()
 const splitByLine = str => {
-    return str.split(/\n/);
+    return str.split(/\n/)
 }
 
 const generateLyricsArray = str => {
     return removePunctuation(str)
             .split(/\n| /)
             .filter(word => word.length > 0)
-            .map(word => word.toLowerCase());
+            .map(word => word.toLowerCase())
 }
 
-const filterByWord = arr => {
-    return arr.reduce((wordObj, word) => {
-        wordObj[word] ? wordObj[word]++ : wordObj[word] = 1;
-        return wordObj;
-    }, {});
+const filterByWord = wordArr => {
+    return wordArr.reduce((wordObj, word) => {
+        wordObj[word] ? wordObj[word]++ : wordObj[word] = 1
+        return wordObj
+    }, {})
 }
 
-const filterByCount = obj => {
-    return Object.keys(obj)
+const filterByCount = byWordObj => {
+    return Object.keys(byWordObj)
         .reduce((countObj, word) => {
-            let amt = obj[word];
+            let amt = byWordObj[word]
             countObj[amt] ? countObj[amt].push(word) : countObj[amt] = [word]
-            return countObj;
-        }, {});
+            return countObj
+        }, {})
 }
 
-const getUniqueWords = obj => {
-    return Object.keys(obj).length;
+const getUniqueWords = byWordObj => {
+    return Object.keys(byWordObj).length
 }
 
 
 const removePunctuation = str => {
-    return str.replace(/[^\w'’]/g, ' ');
+    return str.replace(/[^\w'’]/g, ' ')
 }

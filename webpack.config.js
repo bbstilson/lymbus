@@ -35,6 +35,6 @@ module.exports = {
     plugins: [
         HtmlWebpackPluginConfig,
         new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin()
+        // new webpack.NoErrorsPlugin()
     ]
 }
