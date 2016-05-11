@@ -1,18 +1,20 @@
 import React, { Component, PropTypes } from 'react';
+import { connect } from 'react-redux';
 import { Results } from 'components';
+import { fetchResultsIfNeeded } from 'redux/modules/search';
 import axios from 'axios';
 
-export default class ResultsContainer extends Component {
+const mapStateToProps = (state) => {
+    const { search: { isFetching, results }} = state;
+    return {
+        isFetching,
+        results
+    }
+};
+
+class ResultsContainer extends Component {
     static contextTypes = {
         router: PropTypes.object.isRequired
-    }
-
-    constructor() {
-        super();
-        this.state = {
-            isLoading: true,
-            results: [],
-        }
     }
 
     handleChoice = (song) => {
@@ -27,50 +29,21 @@ export default class ResultsContainer extends Component {
     }
 
     componentDidMount() {
-        // dispatch search action
-        const search = this.props.location.query.keyword;
-        const url = `/api/search?keyword=${search}`;
+        const { dispatch, location: { query: { keyword }}} = this.props;
 
-        axios(url) 
-            .then(checkStatus)
-            .then(processResults)
-            .then(results => {
-                this.setState({
-                    isLoading: false,
-                    results
-                });
-            })
-            .catch(err => console.warn('Error in componentDidMount of ResultsContainer', err));
-
-        function checkStatus(response) {
-            if (response.status >= 200 && response.status < 300) {
-                return response
-            } else {
-                var error = new Error(response.statusText)
-                error.response = response
-                throw error
-            }
-        }
-
-        function processResults (res) {
-            return res.data.map((item, idx) => {
-                return {
-                    artist: item.artist,
-                    track: item.track,
-                    id: idx
-                }
-            })
-        }
+        dispatch(fetchResultsIfNeeded(keyword));
     }
 
     render() {
-        const { isLoading, results } = this.state;
+        const { isFetching, results } = this.props;
 
         return (
             <Results 
-                isLoading={isLoading}
+                isFetching={isFetching}
                 results={results}
                 onSelect={this.handleChoice} />
         );
     }
 }
+
+export default connect(mapStateToProps)(ResultsContainer);

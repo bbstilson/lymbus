@@ -1,0 +1,136 @@
+import axios from 'axios';
+import { checkStatus, processSearchResults, toCamelCase } from 'redux/utils';
+
+// constants
+const FETCHING_SEARCH_RESULTS = 'FETCHING_SEARCH_RESULTS';
+const SEARCH_FETCH_SUCCESS = 'SEARCH_FETCH_SUCCESS';
+const SEARCH_FETCH_FAILED = 'SEARCH_FETCH_FAILED';
+const RETURN_PREVIOUS_SEARCH = 'RETURN_PREVIOUS_SEARCH';
+const ADD_TO_SEARCH_HISTORY = 'ADD_TO_SEARCH_HISTORY';
+
+// actions
+const shouldFetchResults = ({ search }, str) => {
+    const searchStr = toCamelCase(str);
+    const results = search.history[searchStr] || false;
+
+    if (!results) {
+        return true
+    }
+    return false
+};
+
+export const fetchResultsIfNeeded = (str) => {
+    return (dispatch, getState) => {
+        dispatch(fetchingSearchResults());
+        
+        if (shouldFetchResults(getState(), str)) {
+            console.log('fetching search results...');
+            dispatch(fetchSearchResults(str));
+        } else {
+            console.log('returning previous search results...');
+            dispatch(returnPreviousSearch(getState(), str));
+        }
+    }
+};
+
+const fetchSearchResults = (search) => {
+    const url = `/api/search?keyword=${search}`;
+
+    return dispatch => {
+        return axios(url) 
+            .then(checkStatus)
+            .then(processSearchResults)
+            .then(results => {
+                dispatch(addToHistory(search, results));
+                dispatch(fetchSuccess(results));
+            })
+            .catch(err => {
+                dispatch(fetchFail(err));
+                console.warn('Error in componentDidMount of ResultsContainer', err)
+            });
+    }
+}
+
+const fetchingSearchResults = () => {
+    return {
+        type: FETCHING_SEARCH_RESULTS
+    };
+}
+
+const returnPreviousSearch = ({ search }, str) => {
+    const searchStr = toCamelCase(str);
+    const data = search.history[searchStr];
+
+    return {
+        type: RETURN_PREVIOUS_SEARCH,
+        data
+    }
+}
+
+const fetchSuccess = (data) => {
+    return {
+        type: SEARCH_FETCH_SUCCESS,
+        data
+    }
+}
+
+const addToHistory = (str, data) => {
+    const search = toCamelCase(str);
+
+    return {
+        type: ADD_TO_SEARCH_HISTORY,
+        search,
+        data
+    };
+}
+
+const fetchFail = (error) => {
+    return {
+        type: SEARCH_FETCH_FAILED,
+        error
+    }
+}
+
+// reducer
+const initialState = {
+    isFetching: true,
+    results: [],
+    history: {}
+};
+
+export default (
+    state = initialState, 
+    action = {}
+) => {
+    switch(action.type) {
+        case FETCHING_SEARCH_RESULTS:
+            return {
+                ...state,
+                isFetching: true
+            }
+        case SEARCH_FETCH_SUCCESS:
+        case RETURN_PREVIOUS_SEARCH:
+            return {
+                ...state,
+                isFetching: false,
+                results: action.data
+            };
+        case SEARCH_FETCH_FAILED:
+            return {
+                ...state,
+                isFetching: false,
+                fetchFailed: true,
+                error: action.error
+            };
+        case ADD_TO_SEARCH_HISTORY:
+            return {
+                ...state,
+                history: {
+                    ...state.history,
+                    [action.search]: action.data
+                }
+            };
+        default: 
+            return state;
+    }
+}

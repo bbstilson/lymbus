@@ -4,7 +4,7 @@ import { FullLyrics, Sorted, Option } from './';
 import { SearchAgain } from 'components';
 
 const Lyrics = ({
-    isLoading,
+    isFetching,
     lyrics,
     order,
     songInfo,
@@ -14,7 +14,7 @@ const Lyrics = ({
     onChangeChildView,
     onChangeOrder
 }) => (
-    isLoading ?
+    isFetching ?
     <div style={{position: 'fixed', top: 0, right: 0, bottom: 0, left: 0}}><Loading stroke={'3px'}
     size={'80px'} /></div> :
     <div className='col-sm-12'>
@@ -33,12 +33,12 @@ const Lyrics = ({
 
 Lyrics.propTypes = {
     childView: PropTypes.string.isRequired, // change this probably
-    isLoading: PropTypes.bool.isRequired,
+    isFetching: PropTypes.bool.isRequired,
     lyrics: PropTypes.shape({
-        all: PropTypes.array.isRequired,
-        byWord: PropTypes.object.isRequired,
-        byCount: PropTypes.object.isRequired,
-        uniqueWords: PropTypes.number.isRequired
+        all: PropTypes.array,
+        byWord: PropTypes.object,
+        byCount: PropTypes.object,
+        uniqueWords: PropTypes.number
     }),
     mainView: PropTypes.string.isRequired, // change this probably
     order: PropTypes.bool.isRequired,
@@ -46,8 +46,8 @@ Lyrics.propTypes = {
     onChangeChildView: PropTypes.func.isRequired,
     onChangeOrder: PropTypes.func.isRequired,
     songInfo: PropTypes.shape({
-        track: PropTypes.string.isRequired,
-        artist: PropTypes.string.isRequired
+        track: PropTypes.string,
+        artist: PropTypes.string
     })
 };
 

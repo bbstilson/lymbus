@@ -12,18 +12,18 @@ var compiler = webpack(config);
 app.use(require('webpack-dev-middleware')(compiler, {
     noInfo: true,
     publicPath: config.output.publicPath,
-    // hot: true,
-    // stats: { colors: true }
+    hot: true,
+    stats: { colors: true }
 }));
 
-// app.use(require('webpack-hot-middleware')(compiler));
+app.use(require('webpack-hot-middleware')(compiler));
 
 app.use(express.static('public')); // for static files
 
 app.get('/api/search', (request, response) => {
     const search = cleanSearchInput(request.query.keyword);
     const url = `http://search.azlyrics.com/search.php?q=${search}&p=0&w=songs`;
-    console.log('url =', url);
+    
     axios(url)
         .then(res => {
             if (res.status >= 200 && res.status <= 300) {
@@ -46,18 +46,7 @@ app.get('/api/search', (request, response) => {
                 };
                 results.push(newRes);
             });
-            
-            function trimResults (arr) {
-                /*
-                    results include current page and *may* include pagination.
-                    if there is pagination (20 results plus current page and pagination)
-                        trim off the first and last
-                    else 
-                        only trim off first
-                */
-                return arr.length === 22 ? arr.slice(1, arr.length - 1) : arr.slice(1, arr.length);
-            }
-            console.log(trimResults(results));
+
             response.json(trimResults(results));
         })
         .catch(error => { console.log('request failed: ', error) });
@@ -134,3 +123,15 @@ const capitalizeFirstLetter = (str) => {
         })
         .join(' ');
 };
+
+function trimResults (arr) {
+    /*
+        results include current page and *may* include pagination.
+
+        if there is pagination, i.e., length = 22 (20 results plus current page and pagination)
+            trim off the first and last
+        else 
+            only trim off first
+    */
+    return arr.length === 22 ? arr.slice(1, arr.length - 1) : arr.slice(1, arr.length);
+}
