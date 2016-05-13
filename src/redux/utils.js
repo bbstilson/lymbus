@@ -1,10 +1,8 @@
 export const checkStatus = res => {
-    if (res.status >= 200 && res.status < 300) {
-        return res
-    } else {
-        var error = new Error(res.statusText)
-        throw error
+    if (res.data.status === 404) {
+        throw res.data
     }
+    return res;
 }
 
 export const processSearchResults = res => {
@@ -44,8 +42,11 @@ const splitByLine = str => {
 }
 
 const generateLyricsArray = str => {
+    const brackets = /\[|\]/g;
+
     return removePunctuation(str)
             .split(/\n| /)
+            .filter(word => !brackets.test(word))
             .filter(word => word.length > 0)
             .map(word => word.toLowerCase())
 }
@@ -72,5 +73,5 @@ const getUniqueWords = byWordObj => {
 
 
 const removePunctuation = str => {
-    return str.replace(/[^\w'’]/g, ' ')
+    return str.replace(/[^\w'’\[\]]/g, ' ')
 }

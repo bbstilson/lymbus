@@ -1,34 +1,52 @@
 import React, { PropTypes } from 'react';
-import Loading from 'react-simple-loading';
 import Result from './Result';
-import { SearchAgain } from 'components';
+import { SearchAgain, Loading } from 'components';
 
 const Results = ({
     isFetching,
+    fetchFailed: { fetchFailed, error },
     results,
-    onSelect
+    onSelect,
+    keyword
 }) => (
     isFetching ?
-    <div style={{position: 'fixed', top: 0, right: 0, bottom: 0, left: 0}}><Loading stroke={'3px'}
-    size={'80px'} /></div> :
-    <div className='col-sm-6 col-sm-offset-3'>
-        <p className='lead'>Select a song</p>
-        {
-            results.map(result => 
-                <Result 
-                    key={result.id} 
-                    songInfo={result}
-                    onSelect={onSelect} />
-            )
-        }
-        <SearchAgain />
-    </div>
+    <Loading /> :
+        <div className='col-sm-6 col-sm-offset-3'>
+            {
+                fetchFailed ?
+                <p>Your search failed: <pre>{error.status} : {error.statusText}</pre>. Try searching for something else.</p> :
+                <div>
+                {
+                    results ?
+                    <div>
+                        <p className='lead'>Select a song</p>
+                        {
+                            results.map(result => 
+                                <Result 
+                                    key={result.id} 
+                                    songInfo={result}
+                                    onSelect={onSelect} />
+                            )
+                        }
+                    </div> :
+                    <p>No results for "{keyword}". Try searching for something else.</p>
+                }
+                </div>
+            }
+            <SearchAgain />
+        </div>
+            
 );
 
 Results.propTypes = {
     isFetching: PropTypes.bool.isRequired,
+    fetchFailed: PropTypes.shape({
+        fetchFailed: PropTypes.bool,
+        error: PropTypes.object
+    }),
     results: PropTypes.array.isRequired,
-    onSelect: PropTypes.func.isRequired
+    onSelect: PropTypes.func.isRequired,
+    keyword: PropTypes.string.isRequired,
 }
 
 export default Results;

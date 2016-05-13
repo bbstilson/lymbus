@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon devServer.js"
+    "start": "node devServer.js"
   },
   "author": "Brandon Stilson <bbstilson@fastmail.com> (brandonstilson.com)",
   "dependencies": {
@@ -29,6 +29,7 @@
     "html-webpack-plugin": "^2.16.1",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1",
-    "webpack-hot-middleware": "^2.10.0"
+    "webpack-hot-middleware": "^2.10.0",
+    "why-did-you-update": "0.0.4"
   }
 }

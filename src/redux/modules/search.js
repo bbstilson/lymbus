@@ -9,17 +9,7 @@ const RETURN_PREVIOUS_SEARCH = 'RETURN_PREVIOUS_SEARCH';
 const ADD_TO_SEARCH_HISTORY = 'ADD_TO_SEARCH_HISTORY';
 
 // actions
-const shouldFetchResults = ({ search }, str) => {
-    const searchStr = toCamelCase(str);
-    const results = search.history[searchStr] || false;
-
-    if (!results) {
-        return true
-    }
-    return false
-};
-
-export const fetchResultsIfNeeded = (str) => {
+export const fetchSearchResultsIfNeeded = (str) => {
     return (dispatch, getState) => {
         dispatch(fetchingSearchResults());
         
@@ -31,6 +21,22 @@ export const fetchResultsIfNeeded = (str) => {
             dispatch(returnPreviousSearch(getState(), str));
         }
     }
+};
+
+const fetchingSearchResults = () => {
+    return {
+        type: FETCHING_SEARCH_RESULTS
+    };
+}
+
+const shouldFetchResults = ({ search }, str) => {
+    const searchStr = toCamelCase(str);
+    const results = search.history[searchStr] || false;
+
+    if (!results) {
+        return true
+    }
+    return false
 };
 
 const fetchSearchResults = (search) => {
@@ -51,11 +57,7 @@ const fetchSearchResults = (search) => {
     }
 }
 
-const fetchingSearchResults = () => {
-    return {
-        type: FETCHING_SEARCH_RESULTS
-    };
-}
+
 
 const returnPreviousSearch = ({ search }, str) => {
     const searchStr = toCamelCase(str);

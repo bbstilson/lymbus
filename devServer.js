@@ -50,15 +50,20 @@ app.get('/api/search', (request, response) => {
 
             response.json(utils.trimResults(results));
         })
-        .catch(error => { console.log('request failed: ', error) });
+        .catch(error => {
+            console.log('Error in /search', error.status, error.statusText, new Date());
+            response.json({ 
+                status: error.status,
+                statusText: error.statusText,
+            });
+        });
 });
 
 app.get('/api/lyrics', (request, response) => {
     const artist = utils.cleanSingleInput(request.query.artist),
         track = utils.cleanSingleInput(request.query.track);
 
-    console.log('artist = ', artist);
-    console.log('track = ', track);
+    console.log('artist = ', artist, ' | track = ', track);
 
     const url = `http://www.azlyrics.com/lyrics/${artist}/${track}.html`;
 
@@ -79,9 +84,12 @@ app.get('/api/lyrics', (request, response) => {
             
             response.send(lyrics);
         })
-        .catch(error => { 
-            console.log('request failed: ', error) 
-            response.send(error);
+        .catch(error => {
+            console.log('Error in /lyrics', error.status, error.statusText, new Date());
+            response.json({ 
+                status: error.status,
+                statusText: error.statusText,
+            });
         });
 });
 

@@ -2,7 +2,6 @@ import axios from 'axios';
 import { checkStatus, processLyrics, toCamelCase } from 'redux/utils';
 
 // constants
-
 const FETCHING_LYRICS = 'FETCHING_LYRICS';
 const LYRICS_FETCH_SUCCESS = 'LYRICS_FETCH_SUCCESS';
 const LYRICS_FETCH_FAILED = 'LYRICS_FETCH_FAILED';
@@ -10,7 +9,6 @@ const RETURN_PREVIOUS_LYRICS = 'RETURN_PREVIOUS_LYRICS';
 const ADD_TO_LYRICS_HISTORY = 'ADD_TO_LYRICS_HISTORY';
 
 // actions
-
 export const fetchLyricsIfNeeded = (artist, track) => {
     return (dispatch, getState) => {
         dispatch(fetchingLyrics());
@@ -56,7 +54,11 @@ const fetchLyrics = (artist, track) => {
                 dispatch(addToHistory(artist, track, data));
                 dispatch(fetchSuccess(artist, track, data));
             })
-            .catch(err => dispatch(fetchFailed(err)));
+            .catch(err => {
+                const { status, statusText } = err;
+                console.warn('Error in fetchLyrics:', err);
+                dispatch(fetchFailed(artist, track, { status, statusText }));
+            });
     }
 }
 
@@ -91,9 +93,10 @@ const addToHistory = (artist, track, data) => {
     }
 }
 
-const fetchFailed = (error) => {
+const fetchFailed = (artist, track, error) => {
     return {
         type: LYRICS_FETCH_FAILED,
+        songInfo: { artist, track },
         error
     }
 }
@@ -102,7 +105,7 @@ const fetchFailed = (error) => {
 const initialState = {
     history: {},
     info: {},
-    isFetching: true
+    isFetching: true,
 }
 
 export default (
@@ -120,6 +123,7 @@ export default (
             return {
                 ...state,
                 isFetching: false,
+                fetchFailed: false,
                 info: {
                     ...action.data,
                     songInfo: action.songInfo,
@@ -135,9 +139,13 @@ export default (
             }
         case LYRICS_FETCH_FAILED:
             return {
+                ...state,
                 isFetching: false,
                 fetchFailed: true,
-                error: action.error
+                error: action.error,
+                info: {
+                    songInfo: action.songInfo
+                }
             }
         default:
             return state;

@@ -29,7 +29,10 @@ export default class WordCloudContainer extends Component {
             rotateRatio: 0.5,
             color: function (word, weight, fontSize) {
                 let w = weight > 50 ? 50 : weight;
-                return `hsla(${(w * 2.5) + 150}, ${0 + (w * 2)}%, 50%, 1)`
+                // console.log('w = ', w);
+                // console.log('hue = ', `${80 + (w * 5)}`);
+                // console.log('sat = ', `${25 + w}%`)
+                return `hsla(${80 + (w * 5)}, ${25 + w}%, 50%, 1)`
             },
             fontFamily: '"Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif'
         };
@@ -38,6 +41,6 @@ export default class WordCloudContainer extends Component {
     }
 
     render() {
-        return <div className='col-sm-8 col-sm-offset-2' style={{zIndex: '-1'}} ref={node => this.cloud = node} />;
+        return <div className='col-sm-12' style={{zIndex: '-1'}} ref={node => this.cloud = node} />;
     }
 }

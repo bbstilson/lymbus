@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
-// import { routerReducer } from 'react-router-redux';
+import { routerReducer } from 'react-router-redux';
 
 import lyrics from './lyrics';
 import search from './search';
 
 export default combineReducers({
-    // routing: routerReducer,
+    routing: routerReducer,
     lyrics,
     search
 });

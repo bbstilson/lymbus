@@ -1,10 +1,13 @@
 import React, { PropTypes } from 'react';
-import Loading from 'react-simple-loading';
-import { FullLyrics, Sorted, Option } from './';
-import { SearchAgain } from 'components';
+import { RequestFailed, RequestSuccess } from './';
+import { SearchAgain, Loading } from 'components';
 
 const Lyrics = ({
     isFetching,
+    fetchFailed: { 
+        fetchFailed, 
+        error 
+    },
     lyrics,
     order,
     songInfo,
@@ -15,25 +18,32 @@ const Lyrics = ({
     onChangeOrder
 }) => (
     isFetching ?
-    <div style={{position: 'fixed', top: 0, right: 0, bottom: 0, left: 0}}><Loading stroke={'3px'}
-    size={'80px'} /></div> :
+    <Loading /> :
     <div className='col-sm-12'>
         <p className='lead'>{songInfo.artist} - {songInfo.track}</p>
         <SearchAgain />
-        <div className='col-sm-12'>
-            <div className='col-sm-6 col-sm-offset-3'>
-                <Option text='Sorted' doClick={onChangeMainView.bind(null, 'Sorted')} />
-                <Option text='Full Lyrics' doClick={onChangeMainView.bind(null, 'FullLyrics')} />
-            </div>
-            {mainView === 'FullLyrics'  && <FullLyrics lyrics={lyrics.all} />}
-            {mainView === 'Sorted'      && <Sorted order={order} lyrics={lyrics} view={childView} onChangeChildView={onChangeChildView} onChangeOrder={onChangeOrder} />}
+        {
+            fetchFailed ?
+            <RequestFailed error={error} /> :
+            <RequestSuccess 
+                mainView={mainView}
+                childView={childView}
+                onChangeMainView={onChangeMainView}
+                onChangeChildView={onChangeChildView}
+                onChangeOrder={onChangeOrder}
+                lyrics={lyrics}
+                order={order} />
+        }
         </div>
-    </div>
-);
+)
 
 Lyrics.propTypes = {
     childView: PropTypes.string.isRequired, // change this probably
     isFetching: PropTypes.bool.isRequired,
+    fetchFailed: PropTypes.shape({
+        fetchFailed: PropTypes.bool,
+        error: PropTypes.object
+    }),
     lyrics: PropTypes.shape({
         all: PropTypes.array,
         byWord: PropTypes.object,
