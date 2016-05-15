@@ -9,23 +9,33 @@ export default class SearchContainer extends Component {
     constructor() {
         super();
         this.state = {
-            search: ''
+            search: '',
+            placeholder: 'e.g., Kendrick Lamar'
         }
     }
 
     handleSubmitSearch = (e) => {
         e.preventDefault();
-        
-        this.context.router.push({
-            pathname: '/search',
-            query: {
-                keyword: this.state.search
-            }
-        });
 
-        this.setState({
-            search: ''
-        });
+        const search = this.state.search.trim();
+        
+        if (search) {
+            this.context.router.push({
+                pathname: '/search',
+                query: {
+                    keyword: search
+                }
+            });
+
+            this.setState({
+                search: ''
+            });
+        } else {
+            this.setState({
+                placeholder: 'Please enter a search',
+                search: ''
+            })
+        }
     }
 
     handleUpdateSearch = (e) => {
@@ -35,11 +45,14 @@ export default class SearchContainer extends Component {
     }
 
     render() {
+        const { search, placeholder } = this.state;
+        
         return (
-            <Search 
+            <Search
                 onSubmitSearch={this.handleSubmitSearch}
                 onUpdateSearch={this.handleUpdateSearch}
-                search={this.state.search} />
+                search={search}
+                placeholder={placeholder} />
         )
     }
 }

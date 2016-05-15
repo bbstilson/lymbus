@@ -37,16 +37,23 @@ export const processLyrics = ({ data }) => {
 }
 
 // helper functions for processLyrics()
+
+String.prototype.removePunctuation = function () {
+    return this.replace(/[^\w'’\[\]-]/g, ' ');
+}
+
+String.prototype.removeBrackets = function () {
+    return this.replace(/^(\[).+(\])$/gm, '');
+}
+
 const splitByLine = str => {
     return str.split(/\n/)
 }
 
 const generateLyricsArray = str => {
-    const brackets = /\[|\]/g;
-
-    return removePunctuation(str)
+    return str.removeBrackets()
+            .removePunctuation()
             .split(/\n| /)
-            .filter(word => !brackets.test(word))
             .filter(word => word.length > 0)
             .map(word => word.toLowerCase())
 }
@@ -69,9 +76,4 @@ const filterByCount = byWordObj => {
 
 const getUniqueWords = byWordObj => {
     return Object.keys(byWordObj).length
-}
-
-
-const removePunctuation = str => {
-    return str.replace(/[^\w'’\[\]]/g, ' ')
 }
