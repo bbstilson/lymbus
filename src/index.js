@@ -7,7 +7,7 @@ import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux'
 import { whyDidYouUpdate } from 'why-did-you-update';
 
-whyDidYouUpdate(React, { ignore: /^Connect/ });
+// whyDidYouUpdate(React, { ignore: /^Connect/ });
 
 const store = createStore(hashHistory);
 const history = syncHistoryWithStore(hashHistory, store);

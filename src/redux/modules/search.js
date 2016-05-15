@@ -14,10 +14,8 @@ export const fetchSearchResultsIfNeeded = (str) => {
         dispatch(fetchingSearchResults());
         
         if (shouldFetchResults(getState(), str)) {
-            console.log('fetching search results...');
             dispatch(fetchSearchResults(str));
         } else {
-            console.log('returning previous search results...');
             dispatch(returnPreviousSearch(getState(), str));
         }
     }

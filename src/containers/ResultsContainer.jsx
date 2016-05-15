@@ -21,11 +21,16 @@ class ResultsContainer extends Component {
 
     handleChoice = (song) => {
         const { artist, track } = song;
+
+        function sanitize (str) {
+            return str.replace(/\W/gi, '');
+        }
+        
         this.context.router.push({
             pathname: '/lyrics',
             query: {
-                artist,
-                track
+                artist: encodeURIComponent(artist),
+                track: encodeURIComponent(track)
             }
         });
     }

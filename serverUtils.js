@@ -1,14 +1,21 @@
-function removePunctuation (str) {
-    return str.replace(/[^\w']/g, ' ');
+String.prototype.removePunctuation = function () {
+    return this.replace(/[^\w']/g, ' ');    
 }
 
-function cleanSingleInput (str) {
-    return str.replace(/\W/g, '')
+function cleanArtistInput (str) {
+    return decodeURIComponent(str)
+        .replace(/\W|(the)/gi, '')
         .toLowerCase()
 }
 
+function cleanTrackInput (str) {
+    return decodeURIComponent(str)
+        .replace(/\W/g, '')
+        .toLowerCase();
+}
+
 function cleanSearchInput (str) {
-    return removePunctuation(str)
+    return str.removePunctuation()
         .replace(/\s/g, '+')
         .toLowerCase()
 }
@@ -42,9 +49,15 @@ function trimResults (arr) {
     return arr.length === 22 ? arr.slice(1, arr.length - 1) : arr.slice(1, arr.length);
 }
 
+function sanitize (str) {
+    return str.replace(/\W/gi, '');
+}
+
 module.exports = {
-    cleanSingleInput: cleanSingleInput,
+    cleanArtistInput: cleanArtistInput,
+    cleanTrackInput: cleanTrackInput,
     cleanSearchInput: cleanSearchInput,
     capitalizeFirstLetter: capitalizeFirstLetter,
-    trimResults: trimResults
+    trimResults: trimResults,
+    sanitize: sanitize
 }

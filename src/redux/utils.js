@@ -43,7 +43,7 @@ String.prototype.removePunctuation = function () {
 }
 
 String.prototype.removeBrackets = function () {
-    return this.replace(/^(\[).+(\])$/gm, '');
+    return this.replace(/^(\[).+(\])/gm, '');
 }
 
 const splitByLine = str => {

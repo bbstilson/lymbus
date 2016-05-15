@@ -10,15 +10,16 @@ const ADD_TO_LYRICS_HISTORY = 'ADD_TO_LYRICS_HISTORY';
 
 // actions
 export const fetchLyricsIfNeeded = (artist, track) => {
+    const decArtist = decodeURIComponent(artist);
+    const decTrack = decodeURIComponent(track);
+
     return (dispatch, getState) => {
         dispatch(fetchingLyrics());
 
-        if (shouldFetchResults(getState(), artist, track)) {
-            console.log('fetching lyrics...');
+        if (shouldFetchResults(getState(), decArtist, decTrack)) {
             dispatch(fetchLyrics(artist, track));
         } else {
-            console.log('returning previous lyrics...');
-            dispatch(returnPreviousLyrics(getState(), artist, track));
+            dispatch(returnPreviousLyrics(getState(), decArtist, decTrack));
         }
     }
 }
@@ -39,8 +40,11 @@ const shouldFetchResults = ({ lyrics }, artist, track) => {
     return false;
 }
 
-const fetchLyrics = (artist, track) => {
-    const url = `/api/lyrics?artist=${artist}&track=${track}`;
+const fetchLyrics = (a, t) => {
+    const artist = decodeURIComponent(a);
+    const track = decodeURIComponent(t);
+
+    const url = `/api/lyrics?artist=${a}&track=${t}`;
 
     return dispatch => {
         axios(url) 
@@ -93,7 +97,9 @@ const addToHistory = (artist, track, data) => {
     }
 }
 
-const fetchFailed = (artist, track, error) => {
+const fetchFailed = (a, t, error) => {
+    const artist = decodeURIComponent(a);
+    const track = decodeURIComponent(t);
     return {
         type: LYRICS_FETCH_FAILED,
         songInfo: { artist, track },

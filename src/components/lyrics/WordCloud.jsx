@@ -24,7 +24,7 @@ export default class WordCloudContainer extends Component {
                 return Math.round(16 * width / 1024)
             })(),
             weightFactor: function (size) {
-                return (size + 1.5) * 6
+                return (size + 2) * 4
             },
             rotateRatio: 0.5,
             color: function (word, weight, fontSize) {

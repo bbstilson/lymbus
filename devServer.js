@@ -60,8 +60,8 @@ app.get('/api/search', (request, response) => {
 });
 
 app.get('/api/lyrics', (request, response) => {
-    const artist = utils.cleanSingleInput(request.query.artist),
-        track = utils.cleanSingleInput(request.query.track);
+    const artist = utils.cleanArtistInput(request.query.artist),
+        track = utils.cleanTrackInput(request.query.track);
 
     console.log('artist = ', artist, ' | track = ', track);
 
