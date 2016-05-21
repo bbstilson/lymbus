@@ -1,17 +1,12 @@
-- Word Cloud
-    - prevent from rerendering on tab change
-
 - Styling
-
-- General
-    - Add css transitions
-    - Active tab
     
 - Eventually
     - remove logs
-    - mobile friendly?
+    - prevent word cloud rerender on view change
     - word cloud doesn't resize
+    - mobile friendly?
 
 - Bugs
+    - network timeout (10s)
     - error for terrible fucking internet connection
     - error for http://www.azlyrics.com/lyrics/nirvana/comeasyouare112552.html

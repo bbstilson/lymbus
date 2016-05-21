@@ -8,7 +8,7 @@ const cheerio = require('cheerio')
     SERVER SETUP
 */
 const app = express()
-const port = (process.env.PORT || 8080)
+const port = (process.env.PORT || 4000)
 const indexPath = path.join(__dirname, 'index.html')
 const publicPath = express.static(path.join(__dirname, 'public'))
 

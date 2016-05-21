@@ -1,32 +1,38 @@
-import React, { PropTypes } from 'react';
-import { WordCloud, Ordered, Option } from './';
+import React, { PropTypes } from 'react'
+import { WordCloud, Ordered, Option } from './'
 
 const Sorted = ({
-    order,
     lyrics,
     view,
     onChangeChildView,
     onChangeOrder
-}) => (
-    <div className='col-sm-12'>
+}) => {
+    const lyricsObj = {
+        byCount: lyrics.byCount, 
+        uniqueWords: lyrics.uniqueWords
+    }
+
+    return (
         <div className='col-sm-12'>
-            <Option text='Word Cloud' doClick={onChangeChildView.bind(null, 'WordCloud')}/>
-            <Option text='Ascending' doClick={() => {
-                onChangeChildView('Ordered')
-                onChangeOrder(true)
-            }} />
-            <Option text='Descending' doClick={() => {
-                onChangeChildView('Ordered')
-                onChangeOrder(false)
-            }} />
+            <div className='col-sm-12'>
+                <Option view={view} text='Word Cloud' doClick={() => {
+                    onChangeChildView('WordCloud')
+                }}/>
+                <Option view={view} text='Ascending' doClick={() => {
+                    onChangeChildView('Ascending')
+                }} />
+                <Option view={view} text='Descending' doClick={() => {
+                    onChangeChildView('Descending')
+                }} />
+            </div>
+            {view === 'WordCloud' && <WordCloud lyrics={{...lyrics.byWord}} />}
+            {view === 'Ascending' && <Ordered order={true} lyrics={lyricsObj} />}
+            {view === 'Descending' && <Ordered order={false} lyrics={lyricsObj} />}
         </div>
-        {view === 'WordCloud' && <WordCloud lyrics={{...lyrics.byWord}} />}
-        {view === 'Ordered' && <Ordered order={order} lyrics={{ byCount: lyrics.byCount, uniqueWords: lyrics.uniqueWords }} />}
-    </div>
-);
+    )
+}
 
 Sorted.propTypes = {
-    order: PropTypes.bool.isRequired,
     lyrics: PropTypes.shape({
         all: PropTypes.array.isRequired,
         byWord: PropTypes.object.isRequired,
@@ -36,6 +42,6 @@ Sorted.propTypes = {
     onChangeChildView: PropTypes.func.isRequired,
     onChangeOrder: PropTypes.func.isRequired,
     view: PropTypes.string.isRequired // change this when redux is added probably
-};
+}
 
-export default Sorted;
+export default Sorted

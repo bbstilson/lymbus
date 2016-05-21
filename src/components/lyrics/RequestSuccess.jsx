@@ -12,11 +12,24 @@ const RequestSuccess = ({
 }) => (
     <div className='col-sm-12'>
         <div className='col-sm-6 col-sm-offset-3'>
-            <Option text='Sorted' doClick={onChangeMainView.bind(null, 'Sorted')} />
-            <Option text='Full Lyrics' doClick={onChangeMainView.bind(null, 'FullLyrics')} />
+            <Option 
+                text='Sorted' 
+                view={mainView} 
+                doClick={onChangeMainView.bind(null, 'Sorted')} />
+            <Option 
+                text='Full Lyrics' 
+                view={mainView} 
+                doClick={onChangeMainView.bind(null, 'FullLyrics')} />
         </div>
-        {mainView === 'FullLyrics'  && <FullLyrics lyrics={lyrics.all} />}
-        {mainView === 'Sorted'      && <Sorted order={order} lyrics={lyrics} view={childView} onChangeChildView={onChangeChildView} onChangeOrder={onChangeOrder} />}
+        {mainView === 'FullLyrics' && 
+            <FullLyrics lyrics={lyrics.all} />}
+        {mainView === 'Sorted' && 
+            <Sorted 
+                order={order} 
+                lyrics={lyrics} 
+                view={childView} 
+                onChangeChildView={onChangeChildView} 
+                onChangeOrder={onChangeOrder} />}
     </div>
 );
 

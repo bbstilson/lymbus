@@ -1,17 +1,28 @@
 import React, { PropTypes } from 'react';
 import { space } from 'styles';
 
+const getStyles = (active) => {
+    return {
+        ...space,
+        backgroundColor: active ? 'firebrick' : 'lightblue'
+    }
+}
 const Option = ({
     text,
+    view,
     doClick
-}) => (
-    <button className='btn btn-lg btn-primary' type='button' onClick={doClick} style={space}>
-        {text}
-    </button>
-);
+}) => {
+    const styles = getStyles(view === text.replace(' ', ''))
+    return (
+        <button className='btn btn-lg btn-primary' type='button' onClick={doClick} style={styles}>
+            {text}
+        </button>
+    )
+}
 
 Option.propTypes = {
     text: PropTypes.string.isRequired,
+    view: PropTypes.string.isRequired,
     doClick: PropTypes.func.isRequired
 };
 

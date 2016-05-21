@@ -26,21 +26,18 @@ class LyricsContainer extends Component {
     }
 
     handleChangeMainView = (view) => {
-        // console.log('handleChangeMainView called with', view)
         this.setState({
             mainView: view
         });
     }
 
     handleChangeChildView = (view) => {
-        // console.log('handleChangeChildView called with', view)
         this.setState({
             childView: view
         });
     }
 
     handleChangeOrder = (bool) => {
-        // console.log('handleChangeOrder called with', bool)
         this.setState({
             order: bool
         });
