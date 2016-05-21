@@ -51,7 +51,6 @@ const splitByLine = str => {
 }
 
 const generateLyricsArray = str => {
-    console.log('str = ', str.removeBrackets())
     return str.removeBrackets()
             .removePunctuation()
             .split(/\n| /)
