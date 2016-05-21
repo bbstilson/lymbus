@@ -1,4 +1,5 @@
 import React from 'react'
+import { SearchAgain } from 'components';
 
 const styles = {
     display: 'block'
@@ -12,5 +13,6 @@ export default () => (
         <iframe src="//giphy.com/embed/gpufDFw0sPBYY" width="480" height="202" frameBorder="0" class="giphy-embed" allowFullScreen></iframe>
         </div>
         <p style={styles}>but it's not here.</p>
+        <SearchAgain text='Back to Main Search' />
     </div>
 )

@@ -17,7 +17,7 @@ const Results = ({
                 <p>Your search failed: <pre>{error.status} : {error.statusText}</pre>. Try searching for something else.</p> :
                 <div>
                 {
-                    results ?
+                    results.length > 0 ?
                     <div>
                         <p className='lead'>Select a song</p>
                         {

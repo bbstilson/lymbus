@@ -5,6 +5,8 @@
 
 - General
     - Add css transitions
+    - Active tab
+    - dev vs prod webpack/server
     
 - Eventually
     - mobile friendly?

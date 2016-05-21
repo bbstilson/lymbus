@@ -1,21 +1,21 @@
-import React, { Component, PropTypes } from 'react';
-import { findDOMNode } from 'react-dom';
+import React, { Component, PropTypes } from 'react'
+import { findDOMNode } from 'react-dom'
 
 class Search extends Component {
     focus = () => {
-        findDOMNode(this._input).focus();
+        findDOMNode(this._input).focus()
     }
 
     componentDidMount() {
-        this.focus();
+        this.focus()
     }
 
     componentDidUpdate() {
-        this.focus();
+        this.focus()
     }
 
     render() {
-        const { onSubmitSearch, onUpdateSearch, search, placeholder } = this.props;
+        const { onSubmitSearch, onUpdateSearch, search, placeholder } = this.props
 
         return (
             <div className="col-sm-6 col-sm-offset-3">
@@ -36,7 +36,7 @@ class Search extends Component {
                     </div>
                 </form>
             </div>
-        );
+        )
     }
 }
 
@@ -45,6 +45,6 @@ Search.propTypes = {
     onSubmitSearch: PropTypes.func.isRequired,
     search: PropTypes.string.isRequired,
     placeholder: PropTypes.string.isRequired
-};
+}
 
-export default Search;
+export default Search

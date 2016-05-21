@@ -1,5 +1,5 @@
-import React, { Component, PropTypes } from 'react';
-import { Search } from 'components';
+import React, { Component, PropTypes } from 'react'
+import { Search } from 'components'
 
 export default class SearchContainer extends Component {
     static contextTypes = {
@@ -7,17 +7,17 @@ export default class SearchContainer extends Component {
     }
 
     constructor() {
-        super();
+        super()
         this.state = {
             search: '',
-            placeholder: 'e.g., Kendrick Lamar'
+            placeholder: "Search for a song"
         }
     }
 
     handleSubmitSearch = (e) => {
-        e.preventDefault();
+        e.preventDefault()
 
-        const search = this.state.search.trim();
+        const search = this.state.search.trim()
         
         if (search) {
             this.context.router.push({
@@ -29,7 +29,7 @@ export default class SearchContainer extends Component {
 
             this.setState({
                 search: ''
-            });
+            })
         } else {
             this.setState({
                 placeholder: 'Please enter a search',
@@ -41,11 +41,11 @@ export default class SearchContainer extends Component {
     handleUpdateSearch = (e) => {
         this.setState({
             search: e.target.value
-        });
+        })
     }
 
     render() {
-        const { search, placeholder } = this.state;
+        const { search, placeholder } = this.state
         
         return (
             <Search

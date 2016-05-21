@@ -4,7 +4,9 @@ String.prototype.removePunctuation = function () {
 
 function cleanArtistInput (str) {
     return decodeURIComponent(str)
-        .replace(/\W|(the)/gi, '')
+        // remove non-characters and 'the' if it's the first word
+        // for example, "THE Wombats" but not "Flight of THE Conchords"
+        .replace(/\W|^(the)/gi, '')
         .toLowerCase()
 }
 
