@@ -1,18 +1,16 @@
-- D3 Word Cloud
-    - prevent from reloading on child view change
+- Word Cloud
+    - prevent from rerendering on tab change
 
 - Styling
 
 - General
     - Add css transitions
     - Active tab
-    - dev vs prod webpack/server
     
 - Eventually
+    - remove logs
     - mobile friendly?
     - word cloud doesn't resize
-    - remove console.logs
-    - set up on heroku
 
 - Bugs
     - error for terrible fucking internet connection
