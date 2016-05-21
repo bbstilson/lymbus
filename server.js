@@ -43,14 +43,7 @@ app.get('/api/search', (request, response) => {
     const url = `http://search.azlyrics.com/search.php?q=${search}&p=0&w=songs`
     
     axios(url)
-        .then(res => {
-            if (res.status >= 200 && res.status <= 300) {
-                return res.data
-            } else {
-                const error = new Error(res.statusText)
-                throw error
-            }
-        })
+        .then(utils.checkStatus)
         .then(html => {
             const $ = cheerio.load(html)
             const maxResultsCount = 20
@@ -85,14 +78,7 @@ app.get('/api/lyrics', (request, response) => {
     const url = `http://www.azlyrics.com/lyrics/${artist}/${track}.html`
 
     axios(url)
-        .then(res => {
-            if (res.status >= 200 && res.status <= 300) {
-                return res.data
-            } else {
-                const error = new Error(res.statusText)
-                throw error
-            }
-        })
+        .then(utils.checkStatus)
         .then(html => {
             const $ = cheerio.load(html)
             

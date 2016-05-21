@@ -55,11 +55,21 @@ function sanitize (str) {
     return str.replace(/\W/gi, '');
 }
 
+function checkStatus (res) {
+    if (res.status >= 200 && res.status <= 300) {
+        return res.data
+    } else {
+        const error = new Error(res.statusText)
+        throw error
+    }
+}
+
 module.exports = {
     cleanArtistInput: cleanArtistInput,
     cleanTrackInput: cleanTrackInput,
     cleanSearchInput: cleanSearchInput,
     capitalizeFirstLetter: capitalizeFirstLetter,
     trimResults: trimResults,
-    sanitize: sanitize
+    sanitize: sanitize,
+    checkStatus: checkStatus
 }
