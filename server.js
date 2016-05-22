@@ -10,9 +10,9 @@ const cheerio = require('cheerio')
 const app = express()
 const port = (process.env.PORT || 4000)
 const indexPath = path.join(__dirname, 'index.html')
-const publicPath = express.static(path.join(__dirname, 'public'))
+const publicPath = express.static(path.join(__dirname, 'dist'))
 
-app.use('/public', publicPath)
+app.use('/dist', publicPath)
 
 app.get('/',(_, res) => {
     res.sendFile(indexPath)
