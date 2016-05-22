@@ -10,13 +10,11 @@ const cheerio = require('cheerio')
 const app = express()
 const port = (process.env.PORT || 4000)
 const indexPath = path.join(__dirname, 'index.html')
-const publicPath = express.static(path.join(__dirname, 'dist'))
+const distPath = express.static(path.join(__dirname, 'dist'))
+const publicPath = express.static(path.join(__dirname, 'public'))
 
-app.use('/dist', publicPath)
-
-app.get('/',(_, res) => {
-    res.sendFile(indexPath)
-})
+app.use('/dist', distPath)
+app.use('/public', publicPath)
 
 /*
     WEBPACK DEV ENVIRONMENT
@@ -96,6 +94,11 @@ app.get('/api/lyrics', (request, response) => {
             })
         })
 })
+
+app.get('*',(_, res) => {
+    res.sendFile(indexPath)
+})
+
 
 /*
     RUN SERVER

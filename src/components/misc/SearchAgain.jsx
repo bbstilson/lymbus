@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router';
-import { space } from 'styles';
+import { space } from 'styles/global';
 
 export default ({ text }) => (
     <Link to='/'>

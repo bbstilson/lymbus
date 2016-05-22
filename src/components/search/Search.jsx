@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from 'react'
 import { findDOMNode } from 'react-dom'
+import * as STYLES from 'styles/search';
 
 class Search extends Component {
     focus = () => {
@@ -18,21 +19,21 @@ class Search extends Component {
         const { onSubmitSearch, onUpdateSearch, search, placeholder } = this.props
 
         return (
-            <div className="col-sm-6 col-sm-offset-3">
-                <h1 className='lead'>Lymbus</h1>
+            <div>
+                <div style={STYLES.logo}/>
 
                 <form onSubmit={onSubmitSearch}>
-                    <div className='form-group'>
+                    <div style={STYLES.container}>
                         <input 
                             ref={n => this._input = n}
-                            className="form-control" 
                             placeholder={placeholder} 
                             type="text"
                             value={search}
-                            onChange={onUpdateSearch} />
-                    </div>
-                    <div className='form-group'>
-                        <button className="btn btn-lg btn-success" type="submit">Search</button>
+                            onChange={onUpdateSearch} 
+                            style={STYLES.input} />
+                        <button type="submit" style={STYLES.search}>
+                            <div style={STYLES.icon} />
+                        </button>
                     </div>
                 </form>
             </div>

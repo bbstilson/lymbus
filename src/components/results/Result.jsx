@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import { spaceBottom } from 'styles';
+import { spaceBottom } from 'styles/global';
 
 const Result = ({
     songInfo,
     onSelect
 }) => (
-    <li className='col-sm-12 text-left list-group-item' style={spaceBottom}>
+    <li className='col-sm-12 text-left list-group-item' style={{}}>
         <div className='col-sm-10'>{songInfo.artist} - {songInfo.track}</div>
         <div className='col-sm-2'>
             <button type='button' className='btn btn-md btn-primary' onClick={() => { onSelect(songInfo) }}>Select</button>

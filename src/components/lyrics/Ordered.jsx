@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { wordLabelContainer, wordLabel } from 'styles';
+import { wordLabelContainer, wordLabel } from 'styles/lyrics';
 
 function sortedKeys (obj, order) {
     return order ? Object.keys(obj) : Object.keys(obj).reverse();

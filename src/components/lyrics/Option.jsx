@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { space } from 'styles';
+import { space } from 'styles/global';
 
 const getStyles = (active) => {
     return {

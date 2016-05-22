@@ -1,8 +1,8 @@
 import React from 'react';
-import { transparentBg } from 'styles';
+import { mainContainer } from 'styles/global';
 
 export default (props) => (
-    <div className='jumbotron col-sm-12 text-center' style={transparentBg}>
+    <div style={mainContainer}>
         {props.children}
     </div>
 )
