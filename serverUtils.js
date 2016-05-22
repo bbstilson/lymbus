@@ -1,5 +1,5 @@
 String.prototype.removePunctuation = function () {
-    return this.replace(/[^\w']/g, ' ');    
+    return this.replace(/[^\w']/g, ' ')
 }
 
 function cleanArtistInput (str) {
@@ -13,7 +13,7 @@ function cleanArtistInput (str) {
 function cleanTrackInput (str) {
     return decodeURIComponent(str)
         .replace(/\W/g, '')
-        .toLowerCase();
+        .toLowerCase()
 }
 
 function cleanSearchInput (str) {
@@ -23,20 +23,20 @@ function cleanSearchInput (str) {
 }
 
 function capitalizeFirstLetter (str) {
-    const parts = ['I','II','III', 'IV','V','IV','IIV','IIIV','IX','X'];
+    const parts = ['I','II','III', 'IV','V','IV','IIV','IIIV','IX','X']
     return str.split(' ')
         .map(word => {
             // check for 'parts', e.g., 'I', 'II', etc.
-            if (!!~parts.indexOf(word)) return word.toUpperCase();
+            if (!!~parts.indexOf(word)) return word.toUpperCase()
 
-            const firstLetter = word.slice(0, 1);
+            const firstLetter = word.slice(0, 1)
 
             // checking for remix parens, e.g., Artist - Song (Person Remix)
             return firstLetter === '(' ? 
                 word.slice(0, 2).toUpperCase() + word.slice(2).toLowerCase() :
                 firstLetter + word.slice(1).toLowerCase()
         })
-        .join(' ');
+        .join(' ')
 }
 
 function trimResults (arr) {
@@ -48,11 +48,11 @@ function trimResults (arr) {
         else 
             only trim off first
     */
-    return arr.length === 22 ? arr.slice(1, arr.length - 1) : arr.slice(1, arr.length);
+    return arr.length === 22 ? arr.slice(1, arr.length - 1) : arr.slice(1, arr.length)
 }
 
 function sanitize (str) {
-    return str.replace(/\W/gi, '');
+    return str.replace(/\W/gi, '')
 }
 
 function checkStatus (res) {

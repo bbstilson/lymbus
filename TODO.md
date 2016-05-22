@@ -1,7 +1,7 @@
 - Styling
     
 - Eventually
-    - remove logs
+    - remove logs and whyDidYouUpdate
     - prevent word cloud rerender on view change
     - word cloud doesn't resize
     - mobile friendly?

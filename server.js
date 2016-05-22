@@ -62,6 +62,7 @@ app.get('/api/search', (request, response) => {
         })
         .catch(error => {
             console.log('Error in /search', error.status, error.statusText, new Date())
+            
             response.json({ 
                 status: error.status,
                 statusText: error.statusText,
