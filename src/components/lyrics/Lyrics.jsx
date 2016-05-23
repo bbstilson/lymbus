@@ -23,7 +23,6 @@ const Lyrics = ({
     <Loading /> :
     <div>
         <h1 style={STYLES.header}>{songInfo.artist} - {songInfo.track}</h1>
-        <SearchAgain />
         {
             fetchFailed ?
             <RequestFailed error={error} /> :

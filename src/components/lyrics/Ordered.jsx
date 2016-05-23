@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { word } from 'styles/lyrics';
+import { ordered } from 'styles/lyrics';
 
 function sortedKeys (obj, order) {
     return order ? Object.keys(obj) : Object.keys(obj).reverse();
@@ -13,15 +13,16 @@ const Ordered = ({
     }
 }) => {
     return (
-        <div>
-            <h2>Unique Words: {uniqueWords}</h2>
+        <div style={ordered.container}>
+            <h2 style={ordered.unique}>Unique Words: {uniqueWords}</h2>
             {sortedKeys(byCount, order).map(num => {
                 return (
                     <div key={num}>
-                        <h2 >{num}</h2>
-                        <div style={word.container}>{
+                        <h2 style={ordered.wordContainer}>{`${num} ${num === '1' ? 'time' : 'times'}`}
+                        </h2>
+                        <div style={ordered.container}>{
                             byCount[num].map(word => 
-                                <span key={word} style={word.label}>{word}</span>
+                                <span key={word} style={ordered.wordLabel}>{word}</span>
                             )}
                         </div>
                     </div>

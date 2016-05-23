@@ -14,28 +14,41 @@ export const option = (active) => {
     }
 }
 
-export const word = {
+export const fullLyrics = {
+    fontSize: '1.5em',
+    paddingBottom: '2em'
+}
+
+export const ordered = {
     container: {
+        width: '80%',
+        maxWidth: '1000px',
+        margin: '0 auto',
+        paddingBottom: '2em'
+    },
+    unique: {
+        fontSize: '1.75em'
+    },
+    amount: {
+        fontSize: '1.5em',
+        textDecoration: 'underline'
+    },
+    wordContainer: {
         display: 'flex',
         flexFlow: 'row wrap',
-        justifyContent: 'center'   
+        justifyContent: 'center',
     },
-    label: {
+    wordLabel: {
         padding: '15px 20px',
         fontSize: '16px',
         color: 'white',
-        backgroundColor: '#777',
+        backgroundColor: 'hsla(0, 0%, 100%, 0.5)',
         fontWeight: '700',
         lineHeight: '1',
         textAlign: 'center',
         verticalAlign: 'baseline',
-        borderRadius: '.25em',
+        borderRadius: '5px',
         margin: '0.5em',
         display: 'inline-block'
     }
-}
-
-export const fullLyrics = {
-    fontSize: '1.5em',
-    paddingBottom: '2em'
 }
