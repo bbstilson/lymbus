@@ -12,5 +12,6 @@ export const mainContainer = {
 }
 
 export const loading = {
-    color: 'white'
+    height: '100%',
+    width: '100%'
 }

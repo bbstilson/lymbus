@@ -1,6 +1,7 @@
-import React, { PropTypes } from 'react';
-import Result from './Result';
-import { SearchAgain, Loading } from 'components';
+import React, { PropTypes } from 'react'
+import Result from './Result'
+import { SearchAgain, Loading } from 'components'
+import * as STYLES from 'styles/results'
 
 const Results = ({
     isFetching,
@@ -11,15 +12,15 @@ const Results = ({
 }) => (
     isFetching ?
     <Loading /> :
-        <div className='col-sm-6 col-sm-offset-3'>
+        <div>
             {
                 fetchFailed ?
-                <p>Your search failed: <pre>{error.status} : {error.statusText}</pre>. Try searching for something else.</p> :
+                <p>Oops, your search failed. Try searching for something else.</p> :
                 <div>
                 {
                     results.length > 0 ?
                     <div>
-                        <p className='lead'>Select a song</p>
+                        <h1 style={STYLES.header}>Select a song</h1>
                         {
                             results.map(result => 
                                 <Result 
@@ -36,7 +37,7 @@ const Results = ({
             <SearchAgain />
         </div>
             
-);
+)
 
 Results.propTypes = {
     isFetching: PropTypes.bool.isRequired,
@@ -49,4 +50,4 @@ Results.propTypes = {
     keyword: PropTypes.string.isRequired,
 }
 
-export default Results;
+export default Results
