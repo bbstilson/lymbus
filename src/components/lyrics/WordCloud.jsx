@@ -41,6 +41,6 @@ export default class WordCloudContainer extends Component {
     }
 
     render() {
-        return <div className='col-sm-12' style={{zIndex: '-1'}} ref={node => this.cloud = node} />;
+        return <div style={{zIndex: '-1'}} ref={node => this.cloud = node} />;
     }
 }

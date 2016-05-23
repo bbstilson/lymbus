@@ -1,6 +1,8 @@
-import React, { PropTypes } from 'react';
-import { RequestFailed, RequestSuccess } from './';
-import { SearchAgain, Loading } from 'components';
+import React, { PropTypes } from 'react'
+import { RequestFailed, RequestSuccess } from './'
+import { SearchAgain, Loading } from 'components'
+import * as STYLES from 'styles/lyrics'
+
 
 const Lyrics = ({
     isFetching,
@@ -19,8 +21,8 @@ const Lyrics = ({
 }) => (
     isFetching ?
     <Loading /> :
-    <div className='col-sm-12'>
-        <p className='lead'>{songInfo.artist} - {songInfo.track}</p>
+    <div>
+        <h1 style={STYLES.header}>{songInfo.artist} - {songInfo.track}</h1>
         <SearchAgain />
         {
             fetchFailed ?
@@ -59,6 +61,6 @@ Lyrics.propTypes = {
         track: PropTypes.string,
         artist: PropTypes.string
     })
-};
+}
 
-export default Lyrics;
+export default Lyrics

@@ -1,6 +1,6 @@
 export const header = {
     fontSize: '2.5em',
-    margin: '1em auto',
+    margin: '1.5em auto 1em',
     maxWidth: '800px',
 }
 

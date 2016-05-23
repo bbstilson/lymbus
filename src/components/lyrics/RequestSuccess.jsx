@@ -10,8 +10,8 @@ const RequestSuccess = ({
     lyrics,
     order
 }) => (
-    <div className='col-sm-12'>
-        <div className='col-sm-6 col-sm-offset-3'>
+    <div>
+        <div>
             <Option 
                 text='Sorted' 
                 view={mainView} 
