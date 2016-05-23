@@ -3,11 +3,14 @@ import { paddingBottomLg } from './global'
 export const header = {
     fontSize: '2.5em',
     margin: '1.5em auto 1em',
+    width: '90%',
     maxWidth: '800px',
 }
 
 export const container = {
-    ...paddingBottomLg
+    ...paddingBottomLg,
+    width: '90%',
+    margin: '0 auto'
 }
 
 export const keyword = {

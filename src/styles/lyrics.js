@@ -5,7 +5,8 @@ import { searchAgain as buttonStyle } from './global'
 export const header = {
     fontSize: '2.5em',
     margin: '1.5em auto 0.5em',
-    maxWidth: '800px',
+    width: '90%',
+    maxWidth: '800px'
 }
 
 export const option = (active) => {

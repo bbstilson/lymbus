@@ -7,7 +7,7 @@ export const textCenter = { textAlign: 'center' }
 
 export const wrapper = {
     margin: '0 auto',
-    width: '80%',
+    width: '90%',
     maxWidth: '800px'
 }
 
@@ -54,7 +54,7 @@ export const header = {
         width: '100%',
     },
     wrapper: {
-        width: '100%',
+        width: '90%',
         height: '100%',
         maxWidth: '800px',
         margin: '0 auto',
@@ -69,7 +69,7 @@ export const header = {
             float: 'right',
             height: '35px',
             width: '33.3%',
-            minWidth: '300px',
+            minWidth: '250px',
             margin: 0,
         },
         input: {
