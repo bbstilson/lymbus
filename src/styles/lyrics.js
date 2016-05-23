@@ -52,3 +52,17 @@ export const ordered = {
         display: 'inline-block'
     }
 }
+
+export const sorted = {
+    paddingBottom: '2em'
+}
+export const childNav = {
+    marginBottom: '2em'
+}
+
+export const wordcloud = {
+    position: 'relative', 
+    width: '80%', 
+    maxWidth: '800px', 
+    margin: '0 auto'
+}

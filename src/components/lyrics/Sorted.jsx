@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react'
 import { WordCloud, Ordered, Option } from './'
+import { sorted, childNav } from 'styles/lyrics'
 
 const Sorted = ({
     lyrics,
@@ -13,8 +14,8 @@ const Sorted = ({
     }
 
     return (
-        <div>
-            <div>
+        <div style={sorted}>
+            <div style={childNav}>
                 <Option view={view} text='Word Cloud' doClick={() => {
                     onChangeChildView('WordCloud')
                 }}/>
@@ -25,6 +26,7 @@ const Sorted = ({
                     onChangeChildView('Descending')
                 }} />
             </div>
+            {view === 'WordCloud' && <WordCloud lyrics={lyrics.byWord} />}
             {view === 'Ascending' && <Ordered order={true} lyrics={lyricsObj} />}
             {view === 'Descending' && <Ordered order={false} lyrics={lyricsObj} />}
         </div>
@@ -44,8 +46,3 @@ Sorted.propTypes = {
 }
 
 export default Sorted
-
-/*
-{view === 'WordCloud' && <WordCloud lyrics={{...lyrics.byWord}} />}
-
-*/
