@@ -7,7 +7,9 @@ import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux'
 import { whyDidYouUpdate } from 'why-did-you-update';
 
-whyDidYouUpdate(React, { ignore: /^Connect/ });
+// whyDidYouUpdate(React, { ignore: /^Connect/ });
+
+import { SearchAgain } from 'components'
 
 const store = createStore(browserHistory);
 const history = syncHistoryWithStore(browserHistory, store);
@@ -21,4 +23,4 @@ render(
         </Router>
     </Provider>, 
     root
-);
+)

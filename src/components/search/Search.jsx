@@ -1,45 +1,29 @@
 import React, { Component, PropTypes } from 'react'
+import Radium from 'radium'
 import { findDOMNode } from 'react-dom'
-import * as STYLES from 'styles/search';
+import * as STYLES from 'styles/search'
 
-class Search extends Component {
-    focus = () => {
-        findDOMNode(this._input).focus()
-    }
-
-    componentDidMount() {
-        this.focus()
-    }
-
-    componentDidUpdate() {
-        this.focus()
-    }
-
-    render() {
-        const { onSubmitSearch, onUpdateSearch, search, placeholder } = this.props
-
-        return (
-            <div>
-                <img src='public/images/logo.png' style={STYLES.logo}/>
-
-                <form onSubmit={onSubmitSearch}>
-                    <div style={STYLES.container}>
-                        <input 
-                            ref={n => this._input = n}
-                            placeholder={placeholder} 
-                            type="text"
-                            value={search}
-                            onChange={onUpdateSearch} 
-                            style={STYLES.input} />
-                        <button type="submit" style={STYLES.search}>
-                            <div style={STYLES.icon} />
-                        </button>
-                    </div>
-                </form>
-            </div>
-        )
-    }
-}
+const Search = ({
+    onSubmitSearch, 
+    onUpdateSearch, 
+    search, 
+    placeholder,
+    customStyles
+}) => (
+    <form onSubmit={onSubmitSearch}>
+        <div style={customStyles ? customStyles.container : STYLES.container}>
+            <input 
+                type="text"
+                placeholder={placeholder} 
+                value={search}
+                onChange={onUpdateSearch} 
+                style={customStyles ? {...STYLES.input, ...customStyles.input} : STYLES.input} />
+            <button type="submit" style={customStyles ? {...STYLES.search, ...customStyles.search} : STYLES.search}>
+                <div style={STYLES.icon} />
+            </button>
+        </div>
+    </form>
+)
 
 Search.propTypes = {
     onUpdateSearch: PropTypes.func.isRequired,
@@ -48,4 +32,4 @@ Search.propTypes = {
     placeholder: PropTypes.string.isRequired
 }
 
-export default Search
+export default Radium(Search)

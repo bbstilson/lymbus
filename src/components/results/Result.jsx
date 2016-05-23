@@ -1,20 +1,20 @@
-import React, { PropTypes } from 'react';
+import React, { PropTypes } from 'react'
+import Radium from 'radium'
+import { result } from 'styles/results'
 
 const Result = ({
     songInfo,
     onSelect
 }) => (
-    <li style={{}}>
-        <p>{songInfo.artist} - {songInfo.track}</p>
-        <div>
-            <button type='button' onClick={() => { onSelect(songInfo) }}>Select</button>
-        </div>
-    </li>
-);
+    <a 
+        href='#'
+        style={result}
+        onClick={(e) => { onSelect(e, songInfo) }}>{songInfo.artist} - {songInfo.track}</a>
+)
 
 Result.propTypes = {
     songInfo: PropTypes.object.isRequired,
     onSelect: PropTypes.func.isRequired
-};
+}
 
-export default Result;
+export default Radium(Result)

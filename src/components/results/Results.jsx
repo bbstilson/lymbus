@@ -12,31 +12,32 @@ const Results = ({
 }) => (
     isFetching ?
     <Loading /> :
-        <div>
+    <div style={STYLES.container}>
+        {
+            fetchFailed ?
+            <h1 style={STYLES.header}>Oops, your search failed. Try searching for something else.</h1> :
+            <div>
             {
-                fetchFailed ?
-                <p>Oops, your search failed. Try searching for something else.</p> :
+                results.length > 0 ?
                 <div>
-                {
-                    results.length > 0 ?
-                    <div>
-                        <h1 style={STYLES.header}>Select a song</h1>
-                        {
-                            results.map(result => 
-                                <Result 
-                                    key={result.id} 
-                                    songInfo={result}
-                                    onSelect={onSelect} />
-                            )
-                        }
-                    </div> :
-                    <p>No results for "{keyword}". Try searching for something else.</p>
-                }
-                </div>
+                    <h1 style={STYLES.header}>Results for: <span style={STYLES.keyword}>{keyword}</span></h1>
+                    <div style={STYLES.list}>
+                    {
+                        results.map(result => 
+                            <Result 
+                                key={result.id} 
+                                songInfo={result}
+                                onSelect={onSelect} />
+                        )
+                    }
+                    </div>
+                </div> :
+                <h1 style={STYLES.header}>No results for: <span style={STYLES.keyword}>{keyword}</span>. Try searching for something else.</h1>
             }
-            <SearchAgain />
-        </div>
-            
+            </div>
+        }
+        <SearchAgain />
+    </div>
 )
 
 Results.propTypes = {

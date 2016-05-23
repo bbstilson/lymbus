@@ -9,12 +9,6 @@ export const container = {
     height: dim
 }
 
-export const logo = {
-    height: '80px',
-    margin: '5em',
-    paddingRight: '30px'
-}
-
 export const input = {
     width: '90%',
     maxWidth: 'calc(100% - 80px)',
@@ -22,7 +16,9 @@ export const input = {
     fontSize: '1.5em',
     boxSizing: 'border-box',
     background: 'transparent',
-    border: 'none',
+    borderTop: 'none',
+    borderLeft: 'none',
+    borderRight: 'none',
     borderBottom: `2px solid ${borderColor}`,
     color: 'white',
     fontStyle: 'italic',
@@ -46,5 +42,9 @@ export const icon = {
     backgroundImage: `url(${path}/search-icon.png)`,
     backgroundRepeat: 'no-repeat',
     backgroundPosition: 'center center',
-    backgroundSize: '50%'
+    backgroundSize: '50%',
+    transition: 'background-color 0.1s',
+    ':hover': {
+        backgroundColor: 'hsla(0, 0%, 100%, 0.1)'
+    }
 }

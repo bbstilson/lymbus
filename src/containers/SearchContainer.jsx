@@ -52,7 +52,8 @@ export default class SearchContainer extends Component {
                 onSubmitSearch={this.handleSubmitSearch}
                 onUpdateSearch={this.handleUpdateSearch}
                 search={search}
-                placeholder={placeholder} />
+                customStyles={this.props.customStyles || null}
+                placeholder={this.props.placeholder || placeholder} />
         )
     }
 }

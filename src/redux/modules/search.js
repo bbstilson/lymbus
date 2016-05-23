@@ -106,7 +106,8 @@ export default (
         case FETCHING_SEARCH_RESULTS:
             return {
                 ...state,
-                isFetching: true
+                isFetching: true,
+                results: []
             }
         case SEARCH_FETCH_SUCCESS:
         case RETURN_PREVIOUS_SEARCH:

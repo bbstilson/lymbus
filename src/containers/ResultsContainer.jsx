@@ -2,7 +2,6 @@ import React, { Component, PropTypes } from 'react';
 import { connect } from 'react-redux';
 import { Results } from 'components';
 import { fetchSearchResultsIfNeeded } from 'redux/modules/search';
-import axios from 'axios';
 
 const mapStateToProps = (state) => {
     const { search: { isFetching, results, fetchFailed, error }} = state;
@@ -19,11 +18,12 @@ class ResultsContainer extends Component {
         router: PropTypes.object.isRequired
     }
 
-    handleChoice = (song) => {
-        const { artist, track } = song;
+    handleChoice = (e, song) => {
+        e.preventDefault();
+        const { artist, track } = song
 
         function sanitize (str) {
-            return str.replace(/\W/gi, '');
+            return str.replace(/\W/gi, '')
         }
         
         this.context.router.push({
@@ -32,13 +32,22 @@ class ResultsContainer extends Component {
                 artist: encodeURIComponent(artist),
                 track: encodeURIComponent(track)
             }
-        });
+        })
     }
 
     componentDidMount() {
         const { dispatch, location: { query: { keyword }}} = this.props;
 
         dispatch(fetchSearchResultsIfNeeded(keyword));
+    }
+
+    componentWillReceiveProps(nextProps) {
+        const { dispatch, location: { query: { keyword }}} = this.props
+        const nextKeyword = nextProps.location.query.keyword;
+
+        if (nextKeyword !== keyword) {
+            dispatch(fetchSearchResultsIfNeeded(nextKeyword))
+        }
     }
 
     render() {
