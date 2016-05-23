@@ -1,11 +1,10 @@
+import { wrapper } from './global'
 const dim = '45px'
 const path = 'public/images'
 const borderColor = 'hsla(0, 0%, 60%, 1)'
 
 export const container = {
-    margin: '0 auto',
-    width: '80%',
-    maxWidth: '800px',
+    ...wrapper,
     height: dim
 }
 

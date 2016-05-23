@@ -1,7 +1,15 @@
-export const transparentBg = { background: 'transparent' }
-export const spaceBottom = { marginBottom: '10px' }
-export const space = { margin: '5px' }
+export const paddingBottomSm = { paddingBottom: '1em' }
+export const paddingBottomMd = { paddingBottom: '2em' }
+export const paddingBottomLg = { paddingBottom: '4em' }
+export const marginBottomSm = { marginBottom: '1em' }
+export const marginBottomMd = { marginBottom: '2em' }
 export const textCenter = { textAlign: 'center' }
+
+export const wrapper = {
+    margin: '0 auto',
+    width: '80%',
+    maxWidth: '800px'
+}
 
 export const mainContainer = {
     background: 'linear-gradient(hsla(200, 25%, 22%, 1), hsla(230, 17%, 22%, 1))',
@@ -72,4 +80,32 @@ export const header = {
             height: '35px'
         }
     }
+}
+
+export const footer = {
+    container: {
+        ...header.container,
+        position: 'absolute',
+        bottom: 0,
+        left: 0
+    },
+    wrapper: {
+        ...header.wrapper,
+        display: 'flex',
+        flexFlow: 'row nowrap',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        padding: '20px 0'
+    },
+    anchor: {
+        textDecoration: 'none',
+        ':hover': {
+            textDecoration: 'underline'
+        }
+    }
+}
+
+export const page = {
+    minHeight: '100%',
+    position: 'relative'
 }

@@ -1,3 +1,5 @@
+import { wrapper } from './global'
+import { paddingBottomLg, paddingBottomMd, marginBottomMd } from './global'
 import { searchAgain as buttonStyle } from './global'
 
 export const header = {
@@ -9,22 +11,21 @@ export const header = {
 export const option = (active) => {
     return {
         ...buttonStyle,
-        margin: '5px 5px',
+        margin: '5px',
         backgroundColor: active ? 'hsla(0, 0%, 100%, 0.25)' : 'transparent'
     }
 }
 
 export const fullLyrics = {
+    ...paddingBottomMd,
     fontSize: '1.5em',
-    paddingBottom: '2em'
 }
 
 export const ordered = {
     container: {
-        width: '80%',
-        maxWidth: '1000px',
-        margin: '0 auto',
-        paddingBottom: '2em'
+        ...wrapper,
+        ...paddingBottomMd,
+        maxWidth: '1000px'
     },
     unique: {
         fontSize: '1.75em'
@@ -54,15 +55,13 @@ export const ordered = {
 }
 
 export const sorted = {
-    paddingBottom: '2em'
+    ...paddingBottomLg
 }
 export const childNav = {
-    marginBottom: '2em'
+    ...marginBottomMd
 }
 
 export const wordcloud = {
-    position: 'relative', 
-    width: '80%', 
-    maxWidth: '800px', 
-    margin: '0 auto'
+    ...wrapper,
+    position: 'relative'
 }
