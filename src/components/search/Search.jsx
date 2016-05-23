@@ -20,7 +20,7 @@ class Search extends Component {
 
         return (
             <div>
-                <div style={STYLES.logo}/>
+                <img src='public/images/logo.png' style={STYLES.logo}/>
 
                 <form onSubmit={onSubmitSearch}>
                     <div style={STYLES.container}>

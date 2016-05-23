@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config ./webpack.prod.config.js --progress --colors",
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "npm run build && npm start"
   },
   "author": "Brandon Stilson <bbstilson@fastmail.com> (brandonstilson.com)",
   "dependencies": {

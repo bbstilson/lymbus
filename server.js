@@ -59,7 +59,7 @@ app.get('/api/search', (request, response) => {
             response.json(utils.trimResults(results))
         })
         .catch(error => {
-            console.log('Error in /search', error.status, error.statusText, new Date())
+            console.log('Error in /search', error, error.status, error.statusText)
             
             response.json({ 
                 status: error.status,
@@ -87,7 +87,7 @@ app.get('/api/lyrics', (request, response) => {
             response.send(lyrics)
         })
         .catch(error => {
-            console.log('Error in /lyrics', error.status, error.statusText, new Date())
+            console.log('Error in /lyrics', error, error.status, error.statusText)
             response.json({ 
                 status: error.status,
                 statusText: error.statusText,

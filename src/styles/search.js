@@ -10,10 +10,9 @@ export const container = {
 }
 
 export const logo = {
-    height: '100px',
-    background: `transparent url(${path}/logo.png) no-repeat center top`,
-    backgroundSize: 'contain',
-    margin: '5em'
+    height: '80px',
+    margin: '5em',
+    paddingRight: '30px'
 }
 
 export const input = {
@@ -37,7 +36,8 @@ export const search = {
     background: 'transparent',
     borderRadius: '5px',
     border: `1px solid ${borderColor}`,
-    padding: '0'
+    padding: 0,
+    cursor: 'pointer'
 }
 
 export const icon = {
