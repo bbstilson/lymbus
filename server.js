@@ -2,7 +2,10 @@ const path = require('path')
 const express = require('express')
 const utils = require('./serverUtils')
 const axios = require('axios')
-const cheerio = require('cheerio')
+
+// MusixMatch info
+const base = 'http://api.musixmatch.com/ws/1.1/'
+const apikey = '125994dd5cc978a0f031aca6e65a0cbf'
 
 /*
     SERVER SETUP
@@ -12,6 +15,7 @@ const port = (process.env.PORT || 4000)
 const indexPath = path.join(__dirname, 'index.html')
 const distPath = express.static(path.join(__dirname, 'dist'))
 const publicPath = express.static(path.join(__dirname, 'public'))
+
 
 app.use('/dist', distPath)
 app.use('/public', publicPath)
@@ -38,25 +42,13 @@ if (process.env.NODE_ENV !== 'production') {
 */
 app.get('/api/search', (request, response) => {
     const search = utils.cleanSearchInput(request.query.keyword)
-    const url = `http://search.azlyrics.com/search.php?q=${search}&p=0&w=songs`
+    const resultsAmount = 'page_size=20'
+    const url = `${base}track.search?apikey=${apikey}&q=${search}&f_has_lyrics=1&${resultsAmount}`
     
     axios(url)
         .then(utils.checkStatus)
-        .then(html => {
-            const $ = cheerio.load(html)
-            const maxResultsCount = 20
-            const results = []
-
-            // converts each result in the html to an array of objects: { artist: '', track: '' }
-            $('.table.table-condensed > tr').each((resId, row) => {
-                const newRes = {
-                    track: utils.capitalizeFirstLetter($(row).find('a > b').text()),
-                    artist: utils.capitalizeFirstLetter($(row).find('td > b:first-of-type').text())
-                }
-                results.push(newRes)
-            })
-
-            response.json(utils.trimResults(results))
+        .then(res => {
+            response.json(res.data.message.body.track_list)
         })
         .catch(error => {
             console.log('Error in /search', error, error.status, error.statusText)
@@ -69,22 +61,14 @@ app.get('/api/search', (request, response) => {
 })
 
 app.get('/api/lyrics', (request, response) => {
-    const artist = utils.cleanArtistInput(request.query.artist),
-        track = utils.cleanTrackInput(request.query.track)
+    const id = request.query.id
 
-    console.log('artist = ', artist, ' | track = ', track)
-
-    const url = `http://www.azlyrics.com/lyrics/${artist}/${track}.html`
+    const url = `${base}track.lyrics.get?apikey=${apikey}&track_id=${id}`
 
     axios(url)
         .then(utils.checkStatus)
-        .then(html => {
-            const $ = cheerio.load(html)
-            
-            // lyrics are in first div after div.ringtone
-            const lyrics = $('.ringtone').nextAll('div').eq(0).text()
-            
-            response.send(lyrics)
+        .then(res => {
+            response.json(res.data.message.body.lyrics)
         })
         .catch(error => {
             console.log('Error in /lyrics', error, error.status, error.statusText)

@@ -57,7 +57,7 @@ function sanitize (str) {
 
 function checkStatus (res) {
     if (res.status >= 200 && res.status <= 300) {
-        return res.data
+        return res
     } else {
         const error = new Error(res.statusText)
         throw error

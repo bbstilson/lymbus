@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react'
-import { RequestFailed, RequestSuccess } from './'
+import { RequestFailed, RequestSuccess, Tracking } from './'
 import { SearchAgain, Loading } from 'components'
 import * as STYLES from 'styles/lyrics'
 
@@ -10,7 +10,7 @@ const Lyrics = ({
         fetchFailed, 
         error 
     },
-    lyrics,
+    data,
     order,
     songInfo,
     mainView,
@@ -32,10 +32,10 @@ const Lyrics = ({
                 onChangeMainView={onChangeMainView}
                 onChangeChildView={onChangeChildView}
                 onChangeOrder={onChangeOrder}
-                lyrics={lyrics}
+                data={data}
                 order={order} />
         }
-        </div>
+    </div>
 )
 
 Lyrics.propTypes = {
@@ -45,7 +45,7 @@ Lyrics.propTypes = {
         fetchFailed: PropTypes.bool,
         error: PropTypes.object
     }),
-    lyrics: PropTypes.shape({
+    data: PropTypes.shape({
         all: PropTypes.array,
         byWord: PropTypes.object,
         byCount: PropTypes.object,

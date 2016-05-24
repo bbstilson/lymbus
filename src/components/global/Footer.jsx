@@ -11,6 +11,12 @@ const Footer = () => (
                 href='https://github.com/bbstilson/lymbus'>
                 View on Github
             </a>
+            <a 
+                href='http://www.musixmatch.com/resources'
+                style={styles.anchor}
+                key='musixmatch'>
+                Powered By <img style={styles.logo} src="public/images/musixmatch-logo.png"/>
+            </a>
             <p>By <a 
                     style={styles.anchor} 
                     key='portfolio'

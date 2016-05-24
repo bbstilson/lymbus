@@ -102,6 +102,9 @@ export const footer = {
         ':hover': {
             textDecoration: 'underline'
         }
+    },
+    logo: {
+        height: '16px'
     }
 }
 

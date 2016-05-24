@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { checkStatus, processLyrics, toCamelCase } from 'redux/utils';
+import { checkStatus, processLyrics } from 'redux/utils';
 
 // constants
 const FETCHING_LYRICS = 'FETCHING_LYRICS';
@@ -9,17 +9,14 @@ const RETURN_PREVIOUS_LYRICS = 'RETURN_PREVIOUS_LYRICS';
 const ADD_TO_LYRICS_HISTORY = 'ADD_TO_LYRICS_HISTORY';
 
 // actions
-export const fetchLyricsIfNeeded = (artist, track) => {
-    const decArtist = decodeURIComponent(artist);
-    const decTrack = decodeURIComponent(track);
-
+export const fetchLyricsIfNeeded = (id) => {
     return (dispatch, getState) => {
         dispatch(fetchingLyrics());
 
-        if (shouldFetchResults(getState(), decArtist, decTrack)) {
-            dispatch(fetchLyrics(artist, track));
+        if (shouldFetchResults(getState(), id)) {
+            dispatch(fetchLyrics(id));
         } else {
-            dispatch(returnPreviousLyrics(getState(), decArtist, decTrack));
+            dispatch(returnPreviousLyrics(getState(), id));
         }
     }
 }
@@ -30,9 +27,8 @@ const fetchingLyrics = () => {
     }
 }
 
-const shouldFetchResults = ({ lyrics }, artist, track) => {
-    const historyStr = toCamelCase(artist, track);
-    const results = lyrics.history[historyStr] || false;
+const shouldFetchResults = ({ lyrics }, id) => {
+    const results = lyrics.history[id] || false;
 
     if (!results) {
         return true;
@@ -40,77 +36,57 @@ const shouldFetchResults = ({ lyrics }, artist, track) => {
     return false;
 }
 
-const fetchLyrics = (a, t) => {
-    const artist = decodeURIComponent(a);
-    const track = decodeURIComponent(t);
-
-    const url = `/api/lyrics?artist=${a}&track=${t}`;
+const fetchLyrics = (id) => {
+    const url = `/api/lyrics?id=${id}`;
 
     return dispatch => {
         axios(url) 
             .then(checkStatus)
             .then(processLyrics)
-            .then(lyrics => {
-                const data = {
-                    songInfo: { artist, track },
-                    ...lyrics,
-                };
-                dispatch(addToHistory(artist, track, data));
-                dispatch(fetchSuccess(artist, track, data));
+            .then(data => {
+                dispatch(addToHistory(id, data));
+                dispatch(fetchSuccess(data));
             })
             .catch(err => {
-                const { status, statusText } = err;
                 console.warn('Error in fetchLyrics:', err);
-                dispatch(fetchFailed(artist, track, { status, statusText }));
+                dispatch(fetchFailed(artist, track, err));
             });
     }
 }
 
-const returnPreviousLyrics = ({ lyrics }, artist, track) => {
-    const historyStr = toCamelCase(artist, track);
-    const data = lyrics.history[historyStr];
-    const songInfo = { artist, track };
-
+const returnPreviousLyrics = ({ lyrics }, id) => {
     return {
         type: RETURN_PREVIOUS_LYRICS,
-        data,
-        songInfo
+        data: lyrics.history[id]
     }
 }
 
-const fetchSuccess = (artist, track, data) => {
-    const songInfo = { artist, track };
+const fetchSuccess = (data) => {
     return {
         type: LYRICS_FETCH_SUCCESS,
-        data,
-        songInfo
-    }
-}
-
-const addToHistory = (artist, track, data) => {
-    const key = toCamelCase(artist, track);
-
-    return {
-        type: ADD_TO_LYRICS_HISTORY,
-        key,
         data
     }
 }
 
-const fetchFailed = (a, t, error) => {
-    const artist = decodeURIComponent(a);
-    const track = decodeURIComponent(t);
+const addToHistory = (id, data) => {
+    return {
+        type: ADD_TO_LYRICS_HISTORY,
+        id,
+        data
+    }
+}
+
+const fetchFailed = (data, error) => {
     return {
         type: LYRICS_FETCH_FAILED,
-        songInfo: { artist, track },
-        error
+        data
     }
 }
 
 // reducer
 const initialState = {
     history: {},
-    info: {},
+    data: {},
     isFetching: true,
 }
 
@@ -130,17 +106,14 @@ export default (
                 ...state,
                 isFetching: false,
                 fetchFailed: false,
-                info: {
-                    ...action.data,
-                    songInfo: action.songInfo,
-                }
+                data: action.data
             }
         case ADD_TO_LYRICS_HISTORY:
             return {
                 ...state,
                 history: {
                     ...state.history,
-                    [action.key]: action.data
+                    [action.id]: action.data
                 }
             }
         case LYRICS_FETCH_FAILED:
@@ -149,9 +122,6 @@ export default (
                 isFetching: false,
                 fetchFailed: true,
                 error: action.error,
-                info: {
-                    songInfo: action.songInfo
-                }
             }
         default:
             return state;

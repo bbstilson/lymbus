@@ -10,7 +10,7 @@ export default class WordCloudContainer extends Component {
 
         const styles = window.getComputedStyle(container)
         const width = styles.width.slice(0, -2)
-        container.style.height = `${width * 0.65}px`
+        container.style.height = (width * 0.65) > 400 ? '400px' : `${width * 0.65}px`
 
         const opts = {
             list: (function () {

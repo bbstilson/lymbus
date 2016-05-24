@@ -7,7 +7,7 @@ const RequestSuccess = ({
     onChangeMainView,
     onChangeChildView,
     onChangeOrder,
-    lyrics,
+    data,
     order
 }) => (
     <div>
@@ -22,11 +22,11 @@ const RequestSuccess = ({
                 doClick={onChangeMainView.bind(null, 'FullLyrics')} />
         </div>
         {mainView === 'FullLyrics' && 
-            <FullLyrics lyrics={lyrics.all} />}
+            <FullLyrics lyrics={data.all} />}
         {mainView === 'Sorted' && 
             <Sorted 
                 order={order} 
-                lyrics={lyrics} 
+                lyrics={data} 
                 view={childView} 
                 onChangeChildView={onChangeChildView} 
                 onChangeOrder={onChangeOrder} />}
@@ -40,7 +40,7 @@ RequestSuccess.propTypes = {
     onChangeMainView: PropTypes.func.isRequired,
     onChangeChildView: PropTypes.func.isRequired,
     onChangeOrder: PropTypes.func.isRequired,
-    lyrics: PropTypes.shape({
+    data: PropTypes.shape({
         all: PropTypes.array,
         byWord: PropTypes.object,
         byCount: PropTypes.object,

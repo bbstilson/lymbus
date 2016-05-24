@@ -18,19 +18,17 @@ class ResultsContainer extends Component {
         router: PropTypes.object.isRequired
     }
 
-    handleChoice = (e, song) => {
+    handleChoice = (e, { id, artist, track }) => {
         e.preventDefault();
-        const { artist, track } = song
-
-        function sanitize (str) {
-            return str.replace(/\W/gi, '')
-        }
         
         this.context.router.push({
             pathname: '/lyrics',
             query: {
-                artist: encodeURIComponent(artist),
-                track: encodeURIComponent(track)
+                id
+            },
+            state: {
+                artist,
+                track
             }
         })
     }
