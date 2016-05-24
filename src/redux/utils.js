@@ -57,11 +57,14 @@ const splitByLine = str => {
 }
 
 const generateLyricsArray = str => {
-    return str.removeBrackets()
-            .removePunctuation()
-            .split(/\n| /)
-            .filter(word => word.length > 0)
-            .map(word => word.toLowerCase())
+    const i = str.lastIndexOf('\n'); // remove musixmatch commercial use warning
+
+    return str.slice(0, i)
+        .removeBrackets()
+        .removePunctuation()
+        .split(/\n| /)
+        filter(word => word.length > 0)
+        .map(word => word.toLowerCase())
 }
 
 const filterByWord = wordArr => {
