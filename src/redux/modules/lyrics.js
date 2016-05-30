@@ -49,7 +49,7 @@ const fetchLyrics = (id) => {
             })
             .catch(err => {
                 console.warn('Error in fetchLyrics:', err);
-                dispatch(fetchFailed(artist, track, err));
+                dispatch(fetchFailed(err));
             });
     }
 }
@@ -76,10 +76,10 @@ const addToHistory = (id, data) => {
     }
 }
 
-const fetchFailed = (data, error) => {
+const fetchFailed = (error) => {
     return {
         type: LYRICS_FETCH_FAILED,
-        data
+        error
     }
 }
 
