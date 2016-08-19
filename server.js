@@ -5,7 +5,7 @@ const axios = require('axios')
 
 // MusixMatch info
 const base = 'http://api.musixmatch.com/ws/1.1/'
-const apikey = '125994dd5cc978a0f031aca6e65a0cbf'
+const apikey = 'YOUR_KEY'
 
 /*
     SERVER SETUP
