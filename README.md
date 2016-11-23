@@ -4,8 +4,6 @@ Lymbus (combination of 'lyrics' and 'nimbus') is a unique way to look at song ly
 
 This app converts song lyrics into both a word cloud and a frequency delimited categorized list.
 
-[Check it out.](http://lymbus.herokuapp.com)
-
 Word cloud is generated using [WordCloud 2](https://github.com/timdream/wordcloud2.js).
 
 All data provided by [Musixmatch](https://www.musixmatch.com/)
